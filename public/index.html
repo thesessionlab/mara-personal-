@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>Mara Personal · Session</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black:   #0C0B0A;
+    --near-black: #111110;
+    --surface: #161513;
+    --surface-2: #1E1C1A;
+    --border:  #2C2924;
+    --gold:    #C9A76A;
+    --gold-dim: #7A6340;
+    --cream:   #F0EAE0;
+    --cream-dim: #9A9288;
+    --white:   #FDFAF6;
+    --danger:  #8B3A2E;
+
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body:    'Jost', sans-serif;
+  }
+
+  html, body {
+    height: 100%; height: 100dvh;
+    background: var(--black);
+    color: var(--cream);
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow: hidden;
+  }
+
+  /* ── Layout ─────────────────────────────── */
+
+  #app {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100dvh;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ── Header ─────────────────────────────── */
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: var(--white);
+  }
+
+  .wordmark span {
+    color: var(--gold);
+  }
+
+  .nav-pills {
+    display: flex;
+    gap: 4px;
+  }
+
+  .nav-pill {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    background: none;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .nav-pill:hover { color: var(--cream); }
+
+  .nav-pill.active {
+    color: var(--gold);
+    background: rgba(201, 167, 106, 0.08);
+  }
+
+  /* ── Screens ─────────────────────────────── */
+
+  main {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .screen {
+    display: none;
+    padding: 32px 24px;
+    min-height: 100%;
+  }
+
+  .screen.active { display: block; }
+
+  /* ── Typography ─────────────────────────── */
+
+  .display {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--white);
+    letter-spacing: 0.01em;
+  }
+
+  .display-sm {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 1.3;
+    color: var(--white);
+  }
+
+  .label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .body-text {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--cream-dim);
+  }
+
+  /* ── Cards ──────────────────────────────── */
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+
+  .card-gold {
+    border-color: var(--gold-dim);
+    background: rgba(201, 167, 106, 0.04);
+  }
+
+  /* ── Buttons ─────────────────────────────── */
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--cream-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn:hover { border-color: var(--gold-dim); color: var(--cream); }
+
+  .btn-primary {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--black);
+  }
+
+  .btn-primary:hover {
+    background: var(--cream);
+    border-color: var(--cream);
+    color: var(--black);
+  }
+
+  .btn-ghost {
+    border: none;
+    padding: 8px 12px;
+  }
+
+  .btn-ghost:hover { background: var(--surface-2); border-color: transparent; }
+
+  /* ── Input ───────────────────────────────── */
+
+  textarea, input[type="text"] {
+    width: 100%;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--cream);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.6;
+    padding: 14px 16px;
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  textarea:focus, input[type="text"]:focus {
+    border-color: var(--gold-dim);
+  }
+
+  textarea::placeholder, input[type="text"]::placeholder {
+    color: var(--cream-dim);
+    opacity: 0.5;
+  }
+
+  /* ── Chat interface ───────────────────────── */
+
+  #chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 120px;
+  }
+
+  .msg {
+    max-width: 88%;
+    line-height: 1.65;
+  }
+
+  .msg-mara {
+    align-self: flex-start;
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--cream);
+  }
+
+  .msg-mara .msg-name {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .msg-user {
+    align-self: flex-end;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 12px 12px 3px 12px;
+    padding: 12px 16px;
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--cream-dim);
+  }
+
+  .typing-dot {
+    display: inline-block;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--gold-dim);
+    animation: dot-pulse 1.4s infinite ease-in-out both;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes dot-pulse {
+    0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+    40% { opacity: 1; transform: scale(1); }
+  }
+
+  /* ── Chat input bar ───────────────────────── */
+
+  #chat-bar {
+    position: sticky;
+    bottom: 0;
+    background: linear-gradient(to top, var(--black) 70%, transparent);
+    padding: 16px 24px 28px;
+  }
+
+  #chat-input-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+  }
+
+  #chat-input {
+    flex: 1;
+    min-height: 46px;
+    max-height: 160px;
+    overflow-y: auto;
+  }
+
+  #chat-send {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  /* ── Today screen ─────────────────────────── */
+
+  #today-greeting {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1.3;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  #today-subtext {
+    font-size: 14px;
+    color: var(--cream-dim);
+    margin-bottom: 32px;
+  }
+
+  .route-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .route-card:hover {
+    border-color: var(--gold-dim);
+    background: var(--surface-2);
+  }
+
+  .route-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+  }
+
+  .route-card h3 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .route-card p {
+    font-size: 12px;
+    color: var(--cream-dim);
+  }
+
+  /* ── Glass Box ───────────────────────────── */
+
+  .layer-section {
+    margin-bottom: 24px;
+  }
+
+  .layer-section h3 {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .entry-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(44, 41, 36, 0.5);
+  }
+
+  .entry-row:last-child { border-bottom: none; }
+
+  .entry-content {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.5;
+  }
+
+  .entry-meta {
+    font-size: 10px;
+    color: var(--cream-dim);
+    margin-top: 3px;
+  }
+
+  .confidence-bar {
+    width: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 4px;
+    height: 0;
+    transition: height 0.3s;
+  }
+
+  .entry-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .entry-btn {
+    font-size: 12px;
+    color: var(--cream-dim);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: color 0.2s;
+  }
+
+  .entry-btn:hover { color: var(--cream); }
+
+  .entry-btn.delete:hover { color: var(--danger); }
+
+  .add-entry-form {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    margin-top: 10px;
+  }
+
+  .add-entry-form select {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--cream);
+    font-family: var(--font-body);
+    font-size: 13px;
+    padding: 8px 10px;
+    outline: none;
+    margin-bottom: 8px;
+    width: 100%;
+  }
+
+  /* ── Journal ─────────────────────────────── */
+
+  .journal-prompt-box {
+    background: var(--surface-2);
+    border: 1px solid var(--gold-dim);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+
+  .journal-prompt-text {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--cream);
+    line-height: 1.4;
+    margin-bottom: 16px;
+  }
+
+  .journal-entry-card {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .journal-entry-card:last-child { border-bottom: none; }
+
+  .journal-entry-body {
+    font-size: 14px;
+    color: var(--cream);
+    line-height: 1.65;
+    margin-bottom: 6px;
+  }
+
+  .journal-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .tag {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--cream-dim);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 3px 8px;
+  }
+
+  /* ── Mirror ──────────────────────────────── */
+
+  #mirror-text {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--white);
+    margin: 24px 0;
+    min-height: 80px;
+  }
+
+  /* ── Divider ─────────────────────────────── */
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0;
+  }
+
+  /* ── Utility ─────────────────────────────── */
+
+  .mt-8  { margin-top: 8px; }
+  .mt-16 { margin-top: 16px; }
+  .mt-24 { margin-top: 24px; }
+  .mb-8  { margin-bottom: 8px; }
+  .mb-16 { margin-bottom: 16px; }
+  .mb-24 { margin-bottom: 24px; }
+
+  .flex { display: flex; }
+  .flex-between { display: flex; justify-content: space-between; align-items: center; }
+  .gap-8 { gap: 8px; }
+
+  .text-gold { color: var(--gold); }
+  .text-dim  { color: var(--cream-dim); }
+  .text-sm   { font-size: 13px; }
+
+  .hidden { display: none !important; }
+
+  /* ── Orbit stage indicator ──────────────── */
+
+  .orbit-stages {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .orbit-stage {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    padding: 4px 10px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+
+  .orbit-stage.active {
+    color: var(--gold);
+    border-color: var(--gold-dim);
+    background: rgba(201, 167, 106, 0.08);
+  }
+
+  .orbit-stage.done {
+    color: var(--cream-dim);
+    border-color: var(--border);
+    opacity: 0.5;
+  }
+
+  /* ── Session type selector ─────────────── */
+
+  .session-types {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .session-type-btn {
+    padding: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .session-type-btn:hover {
+    border-color: var(--gold-dim);
+    background: var(--surface-2);
+  }
+
+  .session-type-btn.selected {
+    border-color: var(--gold);
+    background: rgba(201, 167, 106, 0.06);
+  }
+
+  .session-type-btn .type-name {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .session-type-btn .type-desc {
+    font-size: 11px;
+    color: var(--cream-dim);
+  }
+
+  /* ── Mode badge ─────────────────────────── */
+
+  .mode-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 3px 10px;
+  }
+
+  /* ── Scrollbar ──────────────────────────── */
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  @media (max-width: 480px) {
+    .display { font-size: 28px; }
+    .session-types { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ── Header ──────────────────────────────────── -->
+  <header>
+    <div class="wordmark">Mara <span>Personal</span></div>
+    <nav class="nav-pills">
+      <button class="nav-pill active" data-screen="today">Today</button>
+      <button class="nav-pill" data-screen="coaching">Coaching</button>
+      <button class="nav-pill" data-screen="journal">Journal</button>
+      <button class="nav-pill" data-screen="glass-box">Model</button>
+    </nav>
+  </header>
+
+  <!-- ── Main content ────────────────────────────── -->
+  <main>
+
+    <!-- TODAY ──────────────────────────────────── -->
+    <div id="screen-today" class="screen active">
+      <p class="label mb-8">Today</p>
+      <h1 id="today-greeting" class="mb-8">How are you arriving.</h1>
+      <p id="today-subtext">Speak, type, or simply choose where to go.</p>
+
+      <div class="card card-gold mb-16" id="arrival-card">
+        <textarea id="arrival-input"
+          rows="3"
+          placeholder="What is true for you right now..."
+          style="background:none; border:none; padding:0; font-family:var(--font-display); font-size:18px; color:var(--cream);"></textarea>
+        <div class="flex-between mt-16">
+          <span class="text-sm text-dim" id="arrival-hint">Take a moment. There is no wrong answer.</span>
+          <button class="btn btn-primary" id="arrival-send" onclick="handleArrival()">Begin</button>
+        </div>
+      </div>
+
+      <!-- Mara's arrival response -->
+      <div id="arrival-response" class="card hidden">
+        <p class="label mb-8">Mara</p>
+        <p id="arrival-response-text" class="body-text" style="color:var(--cream); font-size:16px;"></p>
+        <div class="mt-16 flex gap-8" id="arrival-routes" style="flex-wrap:wrap;"></div>
+      </div>
+
+      <!-- Route cards -->
+      <div class="divider"></div>
+      <p class="label mb-16">Rooms</p>
+
+      <div class="route-card" onclick="goToCoaching()">
+        <div class="route-icon">◈</div>
+        <div>
+          <h3>Coaching</h3>
+          <p>Work on what is real, in this moment, using ORBIT.</p>
+        </div>
+      </div>
+
+      <div class="route-card" onclick="goToJournal()">
+        <div class="route-icon">◎</div>
+        <div>
+          <h3>Journal</h3>
+          <p>Reflect with a prompt written for where you are.</p>
+        </div>
+      </div>
+
+      <div class="route-card" onclick="goToGlassBox()">
+        <div class="route-icon">◇</div>
+        <div>
+          <h3>Your Model</h3>
+          <p>Everything Mara holds about you. Yours to see and correct.</p>
+        </div>
+      </div>
+
+      <!-- Growth Mirror strip (visible after 30 days) -->
+      <div id="mirror-strip" class="hidden mt-24">
+        <div class="divider"></div>
+        <p class="label mb-16">Growth Mirror</p>
+        <div class="card card-gold">
+          <p id="mirror-strip-text" class="body-text" style="font-style:italic; color:var(--cream);"></p>
+          <button class="btn btn-ghost mt-16 text-sm" onclick="generateMirror()" style="padding:6px 0;">Generate new mirror</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- COACHING ──────────────────────────────── -->
+    <div id="screen-coaching" class="screen">
+
+      <!-- Session setup (shown before session starts) -->
+      <div id="coaching-setup">
+        <p class="label mb-8">Coaching</p>
+        <h2 class="display-sm mb-24">What are we working on.</h2>
+
+        <div class="session-types" id="session-type-grid">
+          <div class="session-type-btn selected" data-type="open" onclick="selectSessionType(this)">
+            <div class="type-name">Open</div>
+            <div class="type-desc">Let Mara read where you are</div>
+          </div>
+          <div class="session-type-btn" data-type="breakthrough" onclick="selectSessionType(this)">
+            <div class="type-name">Breakthrough</div>
+            <div class="type-desc">Something stuck, long standing</div>
+          </div>
+          <div class="session-type-btn" data-type="decision" onclick="selectSessionType(this)">
+            <div class="type-name">Decision</div>
+            <div class="type-desc">A choice that matters</div>
+          </div>
+          <div class="session-type-btn" data-type="confidence" onclick="selectSessionType(this)">
+            <div class="type-name">Confidence</div>
+            <div class="type-desc">Self-doubt, worth, capability</div>
+          </div>
+          <div class="session-type-btn" data-type="anxiety" onclick="selectSessionType(this)">
+            <div class="type-name">Anxiety</div>
+            <div class="type-desc">A spiral, a fear, a spiral</div>
+          </div>
+          <div class="session-type-btn" data-type="relationship" onclick="selectSessionType(this)">
+            <div class="type-name">Relationship</div>
+            <div class="type-desc">A dynamic, a conflict, a pattern</div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" style="width:100%;" onclick="startSession()">Begin session</button>
+      </div>
+
+      <!-- Active session -->
+      <div id="coaching-active" class="hidden">
+
+        <div class="flex-between mb-16">
+          <div class="orbit-stages" id="orbit-stages">
+            <span class="orbit-stage active" data-stage="observe">O</span>
+            <span class="orbit-stage" data-stage="regulate">R</span>
+            <span class="orbit-stage" data-stage="become">B</span>
+            <span class="orbit-stage" data-stage="integrate">I</span>
+            <span class="orbit-stage" data-stage="track">T</span>
+          </div>
+          <div class="flex gap-8" style="align-items:center;">
+            <span class="mode-badge" id="current-mode">companion</span>
+            <button class="btn btn-ghost text-sm" onclick="closeSession()">End</button>
+          </div>
+        </div>
+
+        <div id="chat-messages"></div>
+
+      </div>
+
+      <div id="chat-bar" class="hidden">
+        <div id="chat-input-row">
+          <textarea id="chat-input"
+            placeholder="Speak your truth..."
+            rows="1"
+            onkeydown="chatKeydown(event)"
+            oninput="autoResize(this)"></textarea>
+          <button class="btn btn-primary" id="chat-send" onclick="sendChatMessage()">&#10148;</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- JOURNAL ────────────────────────────────── -->
+    <div id="screen-journal" class="screen">
+      <p class="label mb-8">Journal</p>
+      <h2 class="display-sm mb-24">Reflection intelligence.</h2>
+
+      <div class="journal-prompt-box">
+        <p class="label mb-8">Today's prompt</p>
+        <p class="journal-prompt-text" id="journal-prompt-text">Loading your prompt...</p>
+        <textarea id="journal-body"
+          rows="6"
+          placeholder="Write here. Mara reads this as signal."></textarea>
+        <div class="flex-between mt-12">
+          <span class="text-sm text-dim" id="journal-char-count">0 words</span>
+          <button class="btn btn-primary" onclick="saveJournalEntry()">Save entry</button>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <p class="label mb-16">Previous entries</p>
+      <div id="journal-entries-list">
+        <p class="text-dim text-sm">Loading entries...</p>
+      </div>
+    </div>
+
+    <!-- GLASS BOX ───────────────────────────────── -->
+    <div id="screen-glass-box" class="screen">
+      <p class="label mb-8">Your Model</p>
+      <h2 class="display-sm mb-8">Everything Mara holds.</h2>
+      <p class="body-text mb-24">This is your Life Model. Every entry is visible, editable and deletable. Nothing is used against you. Everything here serves your becoming.</p>
+
+      <div id="life-model-display">
+        <p class="text-dim text-sm">Loading your model...</p>
+      </div>
+
+      <div class="divider"></div>
+      <p class="label mb-16">Add an entry</p>
+      <div class="add-entry-form">
+        <select id="new-entry-layer">
+          <option value="identity">Identity</option>
+          <option value="values">Values</option>
+          <option value="emotional">Emotional</option>
+          <option value="behaviour">Behaviour</option>
+          <option value="relationship">Relationship</option>
+          <option value="ambition">Ambition</option>
+          <option value="confidence">Confidence</option>
+          <option value="growth">Growth</option>
+        </select>
+        <textarea id="new-entry-content"
+          rows="2"
+          placeholder="Something you want Mara to know about you..."
+          style="margin-bottom:10px;"></textarea>
+        <button class="btn btn-primary" style="width:100%;" onclick="addLifeModelEntry()">Add to model</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// Mara Personal · Client
+// ═══════════════════════════════════════════════════════════
+
+// ── State ─────────────────────────────────────────────────
+
+const state = {
+  userId: null,
+  sessionId: null,
+  sessionType: "open",
+  orbitStage: "observe",
+  mode: "companion",
+  lifeModel: [],
+  journalPrompt: "",
+  streaming: false
+};
+
+// ── Init ──────────────────────────────────────────────────
+
+async function init() {
+  // Try to get userId from Supabase session (existing auth system) or fall back to localStorage.
+  try {
+    const { createClient } = await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm");
+    const SUPABASE_URL = document.querySelector('meta[name="supabase-url"]')?.content;
+    const SUPABASE_KEY = document.querySelector('meta[name="supabase-anon"]')?.content;
+    if (SUPABASE_URL && SUPABASE_KEY) {
+      const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+      const { data: { session } } = await sb.auth.getSession();
+      if (session?.user) state.userId = session.user.id;
+    }
+  } catch (e) {}
+
+  if (!state.userId) {
+    // Dev/demo mode: use a stable local ID.
+    let devId = localStorage.getItem("mara_personal_dev_id");
+    if (!devId) {
+      devId = "dev-" + Math.random().toString(36).slice(2, 11);
+      localStorage.setItem("mara_personal_dev_id", devId);
+    }
+    state.userId = devId;
+  }
+
+  setGreeting();
+  loadJournalPrompt();
+  loadJournalEntries();
+  loadLifeModel();
+  checkMirror();
+}
+
+function setGreeting() {
+  const h = new Date().getHours();
+  const greet = h < 12 ? "Good morning." : h < 17 ? "Good afternoon." : "Good evening.";
+  document.getElementById("today-greeting").textContent = greet;
+}
+
+// ── Navigation ────────────────────────────────────────────
+
+document.querySelectorAll(".nav-pill").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".nav-pill").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    const screen = btn.dataset.screen;
+    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+    document.getElementById("screen-" + screen).classList.add("active");
+  });
+});
+
+function goToCoaching() {
+  document.querySelector("[data-screen='coaching']").click();
+}
+
+function goToJournal() {
+  document.querySelector("[data-screen='journal']").click();
+}
+
+function goToGlassBox() {
+  document.querySelector("[data-screen='glass-box']").click();
+}
+
+// ── Today / Arrival ───────────────────────────────────────
+
+async function handleArrival() {
+  const input = document.getElementById("arrival-input").value.trim();
+  if (!input) return;
+
+  const arrivalCard = document.getElementById("arrival-card");
+  const responseEl = document.getElementById("arrival-response");
+  const responseText = document.getElementById("arrival-response-text");
+  const routesEl = document.getElementById("arrival-routes");
+
+  arrivalCard.style.opacity = "0.5";
+  responseEl.classList.remove("hidden");
+  responseText.textContent = "";
+  routesEl.innerHTML = "";
+
+  // Start a quick session for the arrival.
+  const { sessionId } = await startPersonalSession("open");
+
+  let fullText = "";
+  const res = await fetch("/api/personal/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      sessionId,
+      userId: state.userId,
+      message: input,
+      mode: "companion"
+    })
+  });
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    const lines = decoder.decode(value).split("\n");
+    for (const line of lines) {
+      if (!line.startsWith("data: ")) continue;
+      try {
+        const d = JSON.parse(line.slice(6));
+        if (d.text) { fullText += d.text; responseText.textContent = fullText; }
+      } catch {}
+    }
+  }
+
+  // Offer route suggestions based on the response content.
+  const routes = suggestRoutes(input, fullText);
+  routes.forEach(r => {
+    const btn = document.createElement("button");
+    btn.className = "btn";
+    btn.textContent = r.label;
+    btn.style.fontSize = "12px";
+    btn.onclick = r.action;
+    routesEl.appendChild(btn);
+  });
+
+  arrivalCard.classList.add("hidden");
+  state.sessionId = sessionId;
+}
+
+function suggestRoutes(userInput, maraReply) {
+  const text = (userInput + " " + maraReply).toLowerCase();
+  const routes = [];
+  if (text.includes("anxious") || text.includes("spiral") || text.includes("overwhelm")) {
+    routes.push({ label: "Go to coaching", action: goToCoaching });
+  }
+  if (text.includes("decision") || text.includes("choose") || text.includes("should")) {
+    routes.push({ label: "Decision session", action: () => { goToCoaching(); selectSessionTypeByName("decision"); } });
+  }
+  if (text.includes("write") || text.includes("reflect") || text.includes("think through")) {
+    routes.push({ label: "Open journal", action: goToJournal });
+  }
+  if (!routes.length) {
+    routes.push({ label: "Start coaching", action: goToCoaching });
+    routes.push({ label: "Write it out", action: goToJournal });
+  }
+  return routes.slice(0, 2);
+}
+
+// ── Session management ────────────────────────────────────
+
+async function startPersonalSession(sessionType = "open") {
+  const res = await fetch("/api/personal/session/start", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId: state.userId, sessionType })
+  });
+  return res.json();
+}
+
+function selectSessionType(el) {
+  document.querySelectorAll(".session-type-btn").forEach(b => b.classList.remove("selected"));
+  el.classList.add("selected");
+  state.sessionType = el.dataset.type;
+}
+
+function selectSessionTypeByName(type) {
+  const btn = document.querySelector(`.session-type-btn[data-type="${type}"]`);
+  if (btn) selectSessionType(btn);
+}
+
+async function startSession() {
+  const setup = document.getElementById("coaching-setup");
+  const active = document.getElementById("coaching-active");
+  const chatBar = document.getElementById("chat-bar");
+  const messages = document.getElementById("chat-messages");
+
+  const { sessionId } = await startPersonalSession(state.sessionType);
+  state.sessionId = sessionId;
+  state.orbitStage = "observe";
+
+  setup.classList.add("hidden");
+  active.classList.remove("hidden");
+  chatBar.classList.remove("hidden");
+  messages.innerHTML = "";
+
+  // Mara opens the session.
+  const openMessage = sessionOpenMessage(state.sessionType);
+  appendTyping();
+  await streamChatMessage(openMessage, true);
+}
+
+function sessionOpenMessage(type) {
+  const openers = {
+    open: "Tell me how you are arriving.",
+    breakthrough: "What is the thing that keeps coming back.",
+    decision: "What is the decision in front of you.",
+    confidence: "What is self-doubt telling you right now.",
+    anxiety: "Where is the anxiety sitting. In the body first.",
+    relationship: "Tell me about the person or dynamic you are bringing here."
+  };
+  return openers[type] || "Tell me how you are arriving.";
+}
+
+async function closeSession() {
+  if (!state.sessionId) return;
+  if (!confirm("End this session?")) return;
+
+  await fetch(`/api/personal/session/${state.sessionId}/close`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({})
+  });
+
+  document.getElementById("coaching-active").classList.add("hidden");
+  document.getElementById("chat-bar").classList.add("hidden");
+  document.getElementById("coaching-setup").classList.remove("hidden");
+  document.getElementById("chat-messages").innerHTML = "";
+  state.sessionId = null;
+}
+
+// ── Chat ──────────────────────────────────────────────────
+
+function chatKeydown(e) {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendChatMessage();
+  }
+}
+
+function autoResize(el) {
+  el.style.height = "auto";
+  el.style.height = Math.min(el.scrollHeight, 160) + "px";
+}
+
+async function sendChatMessage() {
+  if (state.streaming) return;
+  const input = document.getElementById("chat-input");
+  const message = input.value.trim();
+  if (!message) return;
+  if (!state.sessionId) return;
+
+  input.value = "";
+  input.style.height = "auto";
+
+  appendMessage("user", message);
+
+  appendTyping();
+  await streamChatMessage(message, false);
+}
+
+async function streamChatMessage(triggerMessage, isOpener) {
+  state.streaming = true;
+  document.getElementById("chat-send").disabled = true;
+
+  const res = await fetch("/api/personal/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      sessionId: state.sessionId,
+      userId: state.userId,
+      message: triggerMessage,
+      mode: state.mode
+    })
+  });
+
+  removeTyping();
+  const maraEl = appendMessage("mara", "");
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let fullText = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    const lines = decoder.decode(value).split("\n");
+    for (const line of lines) {
+      if (!line.startsWith("data: ")) continue;
+      try {
+        const d = JSON.parse(line.slice(6));
+        if (d.text) {
+          fullText += d.text;
+          maraEl.textContent = fullText;
+          scrollChat();
+        }
+        if (d.done) break;
+      } catch {}
+    }
+  }
+
+  state.streaming = false;
+  document.getElementById("chat-send").disabled = false;
+  document.getElementById("chat-input").focus();
+}
+
+function appendMessage(role, text) {
+  const messages = document.getElementById("chat-messages");
+  const div = document.createElement("div");
+  div.className = role === "mara" ? "msg msg-mara" : "msg msg-user";
+  if (role === "mara") {
+    const nameEl = document.createElement("div");
+    nameEl.className = "msg-name";
+    nameEl.textContent = "Mara";
+    div.appendChild(nameEl);
+  }
+  const textEl = document.createElement("p");
+  textEl.textContent = text;
+  div.appendChild(textEl);
+  messages.appendChild(div);
+  scrollChat();
+  if (role === "mara") return textEl;
+}
+
+function appendTyping() {
+  const messages = document.getElementById("chat-messages");
+  const div = document.createElement("div");
+  div.id = "typing-indicator";
+  div.className = "msg msg-mara";
+  div.innerHTML = '<div class="msg-name">Mara</div><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+  messages.appendChild(div);
+  scrollChat();
+}
+
+function removeTyping() {
+  document.getElementById("typing-indicator")?.remove();
+}
+
+function scrollChat() {
+  const messages = document.getElementById("chat-messages");
+  messages.scrollTop = messages.scrollHeight;
+}
+
+// ── Journal ───────────────────────────────────────────────
+
+async function loadJournalPrompt() {
+  try {
+    const res = await fetch(`/api/personal/journal/${state.userId}/prompt`);
+    const { prompt } = await res.json();
+    state.journalPrompt = prompt;
+    document.getElementById("journal-prompt-text").textContent = prompt;
+  } catch {
+    document.getElementById("journal-prompt-text").textContent =
+      "What is true for you right now, underneath the surface of the day?";
+  }
+}
+
+async function loadJournalEntries() {
+  try {
+    const res = await fetch(`/api/personal/journal/${state.userId}?limit=10`);
+    const { entries } = await res.json();
+    renderJournalEntries(entries);
+  } catch {
+    document.getElementById("journal-entries-list").innerHTML =
+      '<p class="text-dim text-sm">Could not load entries.</p>';
+  }
+}
+
+function renderJournalEntries(entries) {
+  const el = document.getElementById("journal-entries-list");
+  if (!entries.length) {
+    el.innerHTML = '<p class="text-dim text-sm">No entries yet. Your first reflection awaits.</p>';
+    return;
+  }
+  el.innerHTML = entries.map(e => `
+    <div class="journal-entry-card">
+      ${e.prompt ? `<p class="text-sm text-dim mb-8" style="font-style:italic;">${esc(e.prompt)}</p>` : ""}
+      <p class="journal-entry-body">${esc(e.body.slice(0, 300))}${e.body.length > 300 ? "..." : ""}</p>
+      <p class="text-sm text-dim" style="margin-top:6px;">${formatDate(e.created_at)}</p>
+      ${(e.themes || []).length ? `<div class="journal-tags">${e.themes.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>` : ""}
+    </div>
+  `).join("");
+}
+
+document.getElementById("journal-body").addEventListener("input", function() {
+  const words = this.value.trim().split(/\s+/).filter(Boolean).length;
+  document.getElementById("journal-char-count").textContent = words + " word" + (words !== 1 ? "s" : "");
+});
+
+async function saveJournalEntry() {
+  const body = document.getElementById("journal-body").value.trim();
+  if (!body) return;
+
+  const btn = document.querySelector("#screen-journal .btn-primary");
+  btn.textContent = "Saving...";
+  btn.disabled = true;
+
+  try {
+    await fetch(`/api/personal/journal/${state.userId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        body,
+        prompt: state.journalPrompt,
+        modality: "text"
+      })
+    });
+    document.getElementById("journal-body").value = "";
+    document.getElementById("journal-char-count").textContent = "0 words";
+    await loadJournalEntries();
+    btn.textContent = "Saved.";
+    setTimeout(() => {
+      btn.textContent = "Save entry";
+      btn.disabled = false;
+    }, 1500);
+  } catch {
+    btn.textContent = "Save entry";
+    btn.disabled = false;
+  }
+}
+
+// ── Life Model / Glass Box ────────────────────────────────
+
+async function loadLifeModel() {
+  try {
+    const res = await fetch(`/api/personal/life-model/${state.userId}`);
+    const { entries } = await res.json();
+    state.lifeModel = entries;
+    renderLifeModel(entries);
+  } catch {
+    document.getElementById("life-model-display").innerHTML =
+      '<p class="text-dim text-sm">Could not load your model.</p>';
+  }
+}
+
+const LAYER_LABELS = {
+  identity: "Identity",
+  values: "Values",
+  emotional: "Emotional",
+  behaviour: "Behaviour",
+  relationship: "Relationship",
+  ambition: "Ambition",
+  confidence: "Confidence",
+  growth: "Growth"
+};
+
+const LAYER_DESCRIPTIONS = {
+  identity: "Who you believe yourself to be",
+  values: "What your choices reveal you actually protect",
+  emotional: "Recurring emotions, patterns, baseline",
+  behaviour: "What you do, what you avoid, what holds",
+  relationship: "The people and dynamics that shape you",
+  ambition: "Where you are oriented, what pulls you forward",
+  confidence: "Self-belief by domain and its trajectory",
+  growth: "Evidence of becoming, what has genuinely moved"
+};
+
+function renderLifeModel(entries) {
+  const el = document.getElementById("life-model-display");
+  if (!entries.length) {
+    el.innerHTML = `
+      <p class="text-dim text-sm">Your model begins empty and builds from conversation. Have your first coaching session to start building it.</p>
+    `;
+    return;
+  }
+
+  const byLayer = {};
+  for (const e of entries) {
+    if (!byLayer[e.layer]) byLayer[e.layer] = [];
+    byLayer[e.layer].push(e);
+  }
+
+  const layerOrder = ["identity","values","emotional","behaviour","relationship","ambition","confidence","growth"];
+  let html = "";
+
+  for (const layer of layerOrder) {
+    if (!byLayer[layer]) continue;
+    html += `
+      <div class="layer-section">
+        <h3>${LAYER_LABELS[layer]}</h3>
+        <p class="text-sm text-dim mb-8">${LAYER_DESCRIPTIONS[layer]}</p>
+        ${byLayer[layer].map(e => `
+          <div class="entry-row" id="entry-${e.id}">
+            <div class="confidence-bar" style="height:${Math.round(e.confidence * 40)}px; background:${confidenceColor(e.confidence)};"></div>
+            <div style="flex:1;">
+              <p class="entry-content">${esc(e.content)}</p>
+              <p class="entry-meta">${sourceLabel(e.source)} · ${formatDate(e.updated_at)}</p>
+            </div>
+            <div class="entry-actions">
+              <button class="entry-btn delete" onclick="deleteEntry('${e.id}')" title="Remove">×</button>
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    `;
+  }
+
+  el.innerHTML = html;
+}
+
+function confidenceColor(c) {
+  if (c >= 0.7) return "#C9A76A";
+  if (c >= 0.45) return "#7A6340";
+  return "#3A3530";
+}
+
+function sourceLabel(source) {
+  const labels = {
+    seed: "First session",
+    conversation: "Coaching",
+    journal: "Journal",
+    voice: "Voice session",
+    user: "Added by you"
+  };
+  return labels[source] || source;
+}
+
+async function deleteEntry(entryId) {
+  if (!confirm("Remove this entry from your model?")) return;
+  await fetch(`/api/personal/life-model/${state.userId}/${entryId}`, { method: "DELETE" });
+  await loadLifeModel();
+}
+
+async function addLifeModelEntry() {
+  const layer = document.getElementById("new-entry-layer").value;
+  const content = document.getElementById("new-entry-content").value.trim();
+  if (!content) return;
+
+  const btn = document.querySelector(".add-entry-form .btn-primary");
+  btn.textContent = "Adding...";
+  btn.disabled = true;
+
+  await fetch(`/api/personal/life-model/${state.userId}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ layer, content })
+  });
+
+  document.getElementById("new-entry-content").value = "";
+  await loadLifeModel();
+
+  btn.textContent = "Added.";
+  setTimeout(() => {
+    btn.textContent = "Add to model";
+    btn.disabled = false;
+  }, 1200);
+}
+
+// ── Growth Mirror ─────────────────────────────────────────
+
+async function checkMirror() {
+  // Show the mirror strip if the user has been around for a while.
+  const firstSession = localStorage.getItem("mara_personal_first_session");
+  if (!firstSession) {
+    localStorage.setItem("mara_personal_first_session", Date.now().toString());
+    return;
+  }
+  const daysSince = (Date.now() - parseInt(firstSession)) / (1000 * 60 * 60 * 24);
+  if (daysSince >= 7) {
+    // Show strip even if less than 30 days; after 30 days the data is richer.
+    document.getElementById("mirror-strip").classList.remove("hidden");
+    await generateMirror();
+  }
+}
+
+async function generateMirror() {
+  const stripText = document.getElementById("mirror-strip-text");
+  stripText.textContent = "Gathering evidence...";
+  try {
+    const res = await fetch(`/api/personal/mirror/${state.userId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ period: "30days" })
+    });
+    const { mirror } = await res.json();
+    stripText.textContent = mirror;
+  } catch {
+    stripText.textContent = "Could not generate mirror right now.";
+  }
+}
+
+// ── Utilities ─────────────────────────────────────────────
+
+function esc(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function formatDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+}
+
+// ── Boot ──────────────────────────────────────────────────
+
+init();
+</script>
+</body>
+</html>
