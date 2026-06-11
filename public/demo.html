@@ -6,100 +6,154 @@
 <title>Mara Personal · Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --black:#0C0B0A; --surface:#161513; --surface-2:#1E1C1A; --border:#2C2924;
-    --gold:#C9A76A; --gold-dim:#7A6340; --cream:#F0EAE0; --cream-dim:#9A9288; --white:#FDFAF6; --danger:#8B3A2E;
-    --font-display:'Cormorant Garamond',serif; --font-body:'Jost',sans-serif;
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --black:#0A0908;--surface:#161513;--surface-2:#1E1C1A;--border:#2C2924;
+    --gold:#C9A76A;--gold-bright:#E4C588;--gold-dim:#7A6340;--cream:#F0EAE0;--cream-dim:#9A9288;--white:#FDFAF6;--danger:#8B3A2E;
+    --fd:'Cormorant Garamond',serif;--fb:'Jost',sans-serif;
   }
-  html,body { height:100%; background:var(--black); color:var(--cream); font-family:var(--font-body); font-weight:300; font-size:16px; line-height:1.6; }
-  #app { display:flex; flex-direction:column; height:100dvh; max-width:600px; margin:0 auto; }
-  header { display:flex; align-items:center; justify-content:space-between; padding:18px 22px 14px; border-bottom:1px solid var(--border); flex-shrink:0; }
-  .wordmark { font-family:var(--font-display); font-size:21px; letter-spacing:0.04em; color:var(--white); }
-  .wordmark span { color:var(--gold); }
-  .demo-tag { font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-dim); border:1px solid var(--border); border-radius:100px; padding:3px 8px; }
-  .nav-pills { display:flex; gap:2px; }
-  .nav-pill { font-size:10px; font-weight:400; letter-spacing:0.06em; text-transform:uppercase; color:var(--cream-dim); background:none; border:none; padding:6px 8px; border-radius:20px; cursor:pointer; transition:.2s; }
-  .nav-pill:hover { color:var(--cream); }
-  .nav-pill.active { color:var(--gold); background:rgba(201,167,106,.08); }
-  main { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; }
-  .screen { display:none; padding:28px 22px; }
-  .screen.active { display:block; }
-  .display-sm { font-family:var(--font-display); font-size:25px; font-weight:300; line-height:1.3; color:var(--white); }
-  .label { font-size:10px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); }
-  .body-text { font-size:15px; font-weight:300; line-height:1.7; color:var(--cream-dim); }
-  .card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; margin-bottom:12px; }
-  .card-gold { border-color:var(--gold-dim); background:rgba(201,167,106,.04); }
-  .btn { display:inline-flex; align-items:center; justify-content:center; font-family:var(--font-body); font-size:12px; font-weight:400; letter-spacing:0.06em; text-transform:uppercase; padding:11px 22px; border-radius:100px; border:1px solid var(--border); background:none; color:var(--cream-dim); cursor:pointer; transition:.2s; }
-  .btn:hover { border-color:var(--gold-dim); color:var(--cream); }
-  .btn-primary { background:var(--gold); border-color:var(--gold); color:var(--black); }
-  .btn-primary:hover { background:var(--cream); border-color:var(--cream); color:var(--black); }
-  .btn-ghost { border:none; padding:8px 10px; }
-  textarea { width:100%; background:var(--surface-2); border:1px solid var(--border); border-radius:10px; color:var(--cream); font-family:var(--font-body); font-size:15px; font-weight:300; line-height:1.6; padding:13px 15px; resize:none; outline:none; }
-  textarea:focus { border-color:var(--gold-dim); }
-  textarea::placeholder { color:var(--cream-dim); opacity:.5; }
-  #today-greeting { font-family:var(--font-display); font-size:27px; line-height:1.3; color:var(--white); margin-bottom:6px; }
-  .route-card { display:flex; align-items:center; gap:15px; padding:16px 18px; background:var(--surface); border:1px solid var(--border); border-radius:12px; margin-bottom:10px; cursor:pointer; transition:.2s; }
-  .route-card:hover { border-color:var(--gold-dim); background:var(--surface-2); }
-  .route-icon { width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; background:var(--surface-2); border:1px solid var(--border); color:var(--gold); }
-  .route-card h3 { font-family:var(--font-display); font-size:18px; font-weight:400; color:var(--white); margin-bottom:1px; }
-  .route-card p { font-size:12px; color:var(--cream-dim); }
-  .divider { height:1px; background:var(--border); margin:22px 0; }
-  .session-types { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:22px; }
-  .session-type-btn { padding:13px; background:var(--surface); border:1px solid var(--border); border-radius:10px; text-align:left; cursor:pointer; transition:.2s; }
-  .session-type-btn:hover { border-color:var(--gold-dim); background:var(--surface-2); }
-  .session-type-btn.selected { border-color:var(--gold); background:rgba(201,167,106,.06); }
-  .session-type-btn .type-name { font-family:var(--font-display); font-size:16px; color:var(--white); margin-bottom:1px; }
-  .session-type-btn .type-desc { font-size:11px; color:var(--cream-dim); }
-  .orbit-stages { display:flex; gap:6px; }
-  .orbit-stage { font-size:10px; letter-spacing:0.1em; color:var(--cream-dim); padding:4px 9px; border-radius:100px; border:1px solid var(--border); transition:.2s; }
-  .orbit-stage.active { color:var(--gold); border-color:var(--gold-dim); background:rgba(201,167,106,.08); }
-  .mode-badge { font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--cream-dim); border:1px solid var(--border); border-radius:100px; padding:3px 9px; }
-  #chat-messages { display:flex; flex-direction:column; gap:15px; padding:18px 0 16px; }
-  .msg { max-width:88%; line-height:1.65; }
-  .msg-mara { align-self:flex-start; font-size:15px; color:var(--cream); }
-  .msg-mara .msg-name { font-size:10px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:5px; }
-  .msg-user { align-self:flex-end; background:var(--surface-2); border:1px solid var(--border); border-radius:12px 12px 3px 12px; padding:11px 15px; font-size:15px; color:var(--cream-dim); }
-  .typing-dot { display:inline-block; width:5px; height:5px; border-radius:50%; background:var(--gold-dim); animation:dp 1.4s infinite ease-in-out both; }
-  .typing-dot:nth-child(2){animation-delay:.2s} .typing-dot:nth-child(3){animation-delay:.4s}
-  @keyframes dp { 0%,80%,100%{opacity:.2;transform:scale(.8)} 40%{opacity:1;transform:scale(1)} }
-  #chat-bar { padding:14px 22px 22px; border-top:1px solid var(--border); flex-shrink:0; background:var(--black); }
-  #chat-input-row { display:flex; gap:9px; align-items:flex-end; }
-  #chat-input { flex:1; min-height:44px; max-height:120px; overflow-y:auto; }
-  #chat-send { width:44px; height:44px; border-radius:50%; padding:0; flex-shrink:0; font-size:15px; }
-  .journal-prompt-box { background:var(--surface-2); border:1px solid var(--gold-dim); border-radius:12px; padding:18px; margin-bottom:22px; }
-  .journal-prompt-text { font-family:var(--font-display); font-size:19px; font-style:italic; color:var(--cream); line-height:1.4; margin-bottom:14px; }
-  .journal-entry-card { padding:15px 0; border-bottom:1px solid var(--border); }
-  .journal-entry-card:last-child { border-bottom:none; }
-  .journal-entry-body { font-size:14px; color:var(--cream); line-height:1.65; }
-  .journal-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
-  .tag { font-size:10px; letter-spacing:0.06em; color:var(--cream-dim); background:var(--surface-2); border:1px solid var(--border); border-radius:100px; padding:3px 8px; }
-  .layer-section { margin-bottom:22px; }
-  .layer-section h3 { font-size:10px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; padding-bottom:7px; border-bottom:1px solid var(--border); }
-  .entry-row { display:flex; align-items:flex-start; gap:10px; padding:9px 0; border-bottom:1px solid rgba(44,41,36,.5); }
-  .entry-row:last-child { border-bottom:none; }
-  .entry-content { flex:1; font-size:14px; color:var(--cream); line-height:1.5; }
-  .entry-meta { font-size:10px; color:var(--cream-dim); margin-top:3px; }
-  .confidence-bar { width:3px; border-radius:2px; flex-shrink:0; margin-top:4px; }
-  .entry-btn { font-size:14px; color:var(--cream-dim); background:none; border:none; cursor:pointer; padding:3px; }
-  .entry-btn:hover { color:var(--danger); }
-  .mt-16{margin-top:16px} .mb-8{margin-bottom:8px} .mb-16{margin-bottom:16px} .mb-24{margin-bottom:24px}
-  .flex-between{display:flex;justify-content:space-between;align-items:center} .gap-8{display:flex;gap:8px;align-items:center}
-  .text-dim{color:var(--cream-dim)} .text-sm{font-size:13px} .hidden{display:none!important}
-  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-  @media (max-width:480px){ .session-types{grid-template-columns:1fr} }
+  html,body{height:100%;background:var(--black);color:var(--cream);font-family:var(--fb);font-weight:300;font-size:16px;line-height:1.6;overflow:hidden}
+  /* ambient drifting light */
+  .ambient{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+  .ambient::before,.ambient::after{content:"";position:absolute;width:70vw;height:70vw;max-width:520px;max-height:520px;border-radius:50%;filter:blur(80px);opacity:.16}
+  .ambient::before{background:radial-gradient(circle,#C9A76A,transparent 70%);top:-15%;left:-10%;animation:drift1 26s ease-in-out infinite}
+  .ambient::after{background:radial-gradient(circle,#5A4A8A,transparent 70%);bottom:-20%;right:-15%;animation:drift2 32s ease-in-out infinite}
+  @keyframes drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(20%,25%)}}
+  @keyframes drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-18%,-22%)}}
+
+  #app{position:relative;z-index:1;display:flex;flex-direction:column;height:100dvh;max-width:600px;margin:0 auto}
+  header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid var(--border);flex-shrink:0;backdrop-filter:blur(6px)}
+  .wordmark{font-family:var(--fd);font-size:20px;letter-spacing:.04em;color:var(--white)}
+  .wordmark span{color:var(--gold)}
+  .demo-tag{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dim);border:1px solid var(--border);border-radius:100px;padding:3px 8px;margin-left:8px}
+  .nav-pills{display:flex;gap:1px}
+  .nav-pill{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--cream-dim);background:none;border:none;padding:6px 9px;border-radius:20px;cursor:pointer;transition:.25s}
+  .nav-pill:hover{color:var(--cream)}
+  .nav-pill.active{color:var(--gold);background:rgba(201,167,106,.1)}
+  main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .screen{display:none;padding:26px 20px 40px;animation:fade .5s ease}
+  .screen.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .display{font-family:var(--fd);font-size:38px;font-weight:300;line-height:1.1;color:var(--white);letter-spacing:.01em}
+  .display-sm{font-family:var(--fd);font-size:25px;font-weight:300;line-height:1.3;color:var(--white)}
+  .label{font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+  .body-text{font-size:15px;font-weight:300;line-height:1.7;color:var(--cream-dim)}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px}
+  .card-gold{border-color:var(--gold-dim);background:rgba(201,167,106,.05)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-family:var(--fb);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:11px 22px;border-radius:100px;border:1px solid var(--border);background:none;color:var(--cream-dim);cursor:pointer;transition:.25s}
+  .btn:hover{border-color:var(--gold-dim);color:var(--cream);transform:translateY(-1px)}
+  .btn-primary{background:var(--gold);border-color:var(--gold);color:var(--black)}
+  .btn-primary:hover{background:var(--gold-bright);border-color:var(--gold-bright);color:var(--black)}
+  .btn-ghost{border:none;padding:8px 10px}
+  textarea{width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;color:var(--cream);font-family:var(--fb);font-size:15px;font-weight:300;line-height:1.6;padding:13px 15px;resize:none;outline:none}
+  textarea:focus{border-color:var(--gold-dim)}
+  textarea::placeholder{color:var(--cream-dim);opacity:.5}
+  .divider{height:1px;background:var(--border);margin:22px 0}
+  .mt-8{margin-top:8px}.mt-16{margin-top:16px}.mt-24{margin-top:24px}.mb-8{margin-bottom:8px}.mb-16{margin-bottom:16px}.mb-24{margin-bottom:24px}
+  .flex-between{display:flex;justify-content:space-between;align-items:center}.gap-8{display:flex;gap:8px;align-items:center}
+  .text-dim{color:var(--cream-dim)}.text-sm{font-size:13px}.hidden{display:none!important}.center{text-align:center}
+
+  /* ── Voice orb ── */
+  .orb-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 0}
+  .orb{position:relative;width:160px;height:160px;border-radius:50%;cursor:pointer}
+  .orb-core{position:absolute;inset:30px;border-radius:50%;background:radial-gradient(circle at 38% 35%,var(--gold-bright),var(--gold) 45%,var(--gold-dim) 100%);box-shadow:0 0 50px rgba(201,167,106,.45),inset 0 0 30px rgba(255,240,210,.3);animation:breathe 5s ease-in-out infinite}
+  .orb-ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(201,167,106,.35);animation:ring 5s ease-in-out infinite}
+  .orb-ring.r2{inset:14px;animation-delay:.6s;opacity:.6}
+  @keyframes breathe{0%,100%{transform:scale(.92);box-shadow:0 0 40px rgba(201,167,106,.35),inset 0 0 30px rgba(255,240,210,.3)}50%{transform:scale(1.05);box-shadow:0 0 70px rgba(201,167,106,.6),inset 0 0 30px rgba(255,240,210,.4)}}
+  @keyframes ring{0%,100%{transform:scale(.95);opacity:.35}50%{transform:scale(1.08);opacity:.7}}
+  .orb.speaking .orb-core{animation:breathe 1.1s ease-in-out infinite}
+  .orb.speaking .orb-ring{animation:ring 1.1s ease-in-out infinite}
+  .orb.listening .orb-core{animation:breathe 2.4s ease-in-out infinite;background:radial-gradient(circle at 38% 35%,#A9C8E0,#6F9FC0 45%,#3E5A78 100%)}
+  .orb.listening .orb-ring{border-color:rgba(140,180,210,.4)}
+
+  /* ── live state bars ── */
+  .state-bars{display:flex;align-items:flex-end;justify-content:center;gap:4px;height:48px;margin:18px 0 6px}
+  .state-bars span{width:4px;background:var(--gold-dim);border-radius:2px;height:8px;transition:height .15s}
+  .state-bars.live span{animation:bar 1.1s ease-in-out infinite}
+  .state-bars.live span:nth-child(odd){animation-duration:.9s}
+  .state-bars.live span:nth-child(3n){animation-duration:1.4s;background:var(--gold)}
+  @keyframes bar{0%,100%{height:8px}50%{height:42px}}
+
+  /* ── breathing pacer ── */
+  .pacer{width:150px;height:150px;border-radius:50%;border:2px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;margin:18px auto;background:rgba(201,167,106,.06);transition:transform 4s ease-in-out}
+  .pacer.run{animation:pace 10s ease-in-out infinite}
+  @keyframes pace{0%{transform:scale(.8)}40%{transform:scale(1.25)}60%{transform:scale(1.25)}100%{transform:scale(.8)}}
+  .pacer-text{font-family:var(--fd);font-size:18px;color:var(--cream)}
+
+  /* ── rooms grid ── */
+  .fam-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:22px 0 10px}
+  .rooms-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .room-card{position:relative;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:14px;cursor:pointer;transition:.25s;overflow:hidden}
+  .room-card:hover{border-color:var(--gold-dim);transform:translateY(-2px);background:var(--surface-2)}
+  .room-card .ri{font-size:20px;color:var(--gold);margin-bottom:10px;display:block}
+  .room-card h4{font-family:var(--fd);font-size:18px;font-weight:400;color:var(--white);margin-bottom:3px}
+  .room-card p{font-size:11px;color:var(--cream-dim);line-height:1.45}
+  .room-card .flag{position:absolute;top:10px;right:10px;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dim)}
+
+  /* ── chat ── */
+  #chat-messages{display:flex;flex-direction:column;gap:14px;padding:16px 0}
+  .msg{max-width:90%;line-height:1.65}
+  .msg-mara{align-self:flex-start;font-size:15px;color:var(--cream)}
+  .msg-mara .msg-name{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+  .msg-user{align-self:flex-end;background:var(--surface-2);border:1px solid var(--border);border-radius:12px 12px 3px 12px;padding:11px 15px;font-size:15px;color:var(--cream-dim)}
+  .typing-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--gold-dim);animation:dp 1.4s infinite ease-in-out both}
+  .typing-dot:nth-child(2){animation-delay:.2s}.typing-dot:nth-child(3){animation-delay:.4s}
+  @keyframes dp{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+  #chat-bar{padding:12px 20px 20px;border-top:1px solid var(--border);flex-shrink:0;background:var(--black)}
+  #chat-input-row{display:flex;gap:9px;align-items:flex-end}
+  #chat-input{flex:1;min-height:44px;max-height:120px}
+  .icon-btn{width:44px;height:44px;border-radius:50%;padding:0;flex-shrink:0;font-size:16px}
+  .orbit-stages{display:flex;gap:6px}
+  .orbit-stage{font-size:10px;letter-spacing:.1em;color:var(--cream-dim);padding:4px 9px;border-radius:100px;border:1px solid var(--border);transition:.3s}
+  .orbit-stage.active{color:var(--gold);border-color:var(--gold);background:rgba(201,167,106,.1)}
+  .mode-badge{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--cream-dim);border:1px solid var(--border);border-radius:100px;padding:3px 9px}
+  .session-types{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+  .stb{padding:13px;background:var(--surface);border:1px solid var(--border);border-radius:10px;text-align:left;cursor:pointer;transition:.25s}
+  .stb:hover{border-color:var(--gold-dim)}.stb.selected{border-color:var(--gold);background:rgba(201,167,106,.07)}
+  .stb .tn{font-family:var(--fd);font-size:16px;color:var(--white)}.stb .td{font-size:11px;color:var(--cream-dim)}
+
+  /* ── twin visual ── */
+  .twin-orbit{position:relative;width:260px;height:260px;margin:10px auto 24px}
+  .twin-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70px;height:70px;border-radius:50%;background:radial-gradient(circle at 40% 35%,var(--gold-bright),var(--gold-dim));box-shadow:0 0 40px rgba(201,167,106,.5);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:13px;color:var(--black);text-align:center;animation:breathe 6s ease-in-out infinite}
+  .twin-node{position:absolute;width:54px;height:54px;border-radius:50%;border:1px solid var(--gold-dim);background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:9px;letter-spacing:.04em;text-transform:uppercase;color:var(--cream-dim);cursor:pointer;transition:.25s;text-align:center;padding:4px}
+  .twin-node:hover{border-color:var(--gold);color:var(--gold);transform:scale(1.1)}
+  .layer-section{margin-bottom:20px}
+  .layer-section h3{font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;padding-bottom:7px;border-bottom:1px solid var(--border)}
+  .entry-row{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid rgba(44,41,36,.5)}
+  .entry-row:last-child{border-bottom:none}
+  .entry-content{flex:1;font-size:14px;color:var(--cream);line-height:1.5}
+  .entry-meta{font-size:10px;color:var(--cream-dim);margin-top:3px}
+  .confidence-bar{width:3px;border-radius:2px;flex-shrink:0;margin-top:4px}
+  .entry-btn{font-size:14px;color:var(--cream-dim);background:none;border:none;cursor:pointer;padding:3px}.entry-btn:hover{color:var(--danger)}
+  .journal-prompt-box{background:var(--surface-2);border:1px solid var(--gold-dim);border-radius:14px;padding:18px;margin-bottom:22px}
+  .journal-prompt-text{font-family:var(--fd);font-size:19px;font-style:italic;color:var(--cream);line-height:1.4;margin-bottom:14px}
+  .journal-entry-card{padding:15px 0;border-bottom:1px solid var(--border)}.journal-entry-card:last-child{border-bottom:none}
+  .journal-entry-body{font-size:14px;color:var(--cream);line-height:1.65}
+  .journal-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .tag{font-size:10px;letter-spacing:.06em;color:var(--cream-dim);background:var(--surface-2);border:1px solid var(--border);border-radius:100px;padding:3px 8px}
+  .tool-pill{display:inline-block;font-size:12px;color:var(--cream);background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:7px 11px;margin:0 6px 6px 0}
+  .moment-box{border-left:2px solid var(--gold);padding:4px 0 4px 14px;margin:16px 0;font-family:var(--fd);font-style:italic;font-size:17px;color:var(--cream);line-height:1.5}
+
+  /* floating Mara */
+  .mara-fab{position:fixed;bottom:18px;right:18px;z-index:20;width:54px;height:54px;border-radius:50%;background:radial-gradient(circle at 38% 35%,var(--gold-bright),var(--gold-dim));box-shadow:0 0 24px rgba(201,167,106,.5);cursor:pointer;animation:breathe 5s ease-in-out infinite;border:none}
+  .mara-fab span{font-family:var(--fd);font-size:20px;color:var(--black)}
+  ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+  @media(max-width:480px){.display{font-size:31px}.session-types,.rooms-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+<div class="ambient"></div>
 <div id="app">
   <header>
-    <div class="gap-8"><div class="wordmark">Mara <span>Personal</span></div><span class="demo-tag">Demo</span></div>
+    <div style="display:flex;align-items:center"><div class="wordmark">Mara <span>Personal</span></div><span class="demo-tag">Demo</span></div>
     <nav class="nav-pills">
       <button class="nav-pill active" data-screen="today">Today</button>
-      <button class="nav-pill" data-screen="coaching">Coaching</button>
-      <button class="nav-pill" data-screen="journal">Journal</button>
+      <button class="nav-pill" data-screen="rooms">Rooms</button>
+      <button class="nav-pill" data-screen="voice">Voice</button>
+      <button class="nav-pill" data-screen="twin">Twin</button>
       <button class="nav-pill" data-screen="glass-box">Model</button>
     </nav>
   </header>
@@ -107,29 +161,59 @@
   <main>
     <!-- TODAY -->
     <div id="screen-today" class="screen active">
-      <p class="label mb-8">Today</p>
-      <h1 id="today-greeting">How are you arriving.</h1>
-      <p class="text-dim text-sm mb-24">Speak, type, or simply choose where to go.</p>
+      <div class="orb-wrap mt-8">
+        <div class="orb" id="today-orb" onclick="nav('voice')"><div class="orb-ring"></div><div class="orb-ring r2"></div><div class="orb-core"></div></div>
+      </div>
+      <h1 class="display center mt-16" id="today-greeting">How are you arriving.</h1>
+      <p class="text-dim text-sm center mb-24">Speak, type, or simply choose where to go.</p>
       <div class="card card-gold mb-16" id="arrival-card">
-        <textarea id="arrival-input" rows="2" placeholder="What is true for you right now..." style="background:none;border:none;padding:0;font-family:var(--font-display);font-size:18px;"></textarea>
+        <textarea id="arrival-input" rows="2" placeholder="What is true for you right now..." style="background:none;border:none;padding:0;font-family:var(--fd);font-size:18px;"></textarea>
         <div class="flex-between mt-16">
-          <span class="text-sm text-dim">There is no wrong answer.</span>
+          <button class="btn btn-ghost text-sm" onclick="nav('voice')"><span style="font-size:14px">&#9685;</span> Speak instead</button>
           <button class="btn btn-primary" onclick="handleArrival()">Begin</button>
         </div>
       </div>
-      <div id="arrival-response" class="card hidden">
-        <p class="label mb-8">Mara</p>
-        <p id="arrival-response-text" class="body-text" style="color:var(--cream);font-size:16px;"></p>
-      </div>
+      <div id="arrival-response" class="card hidden"><p class="label mb-8">Mara</p><p id="arrival-response-text" class="body-text" style="color:var(--cream);font-size:16px;"></p></div>
       <div class="divider"></div>
-      <p class="label mb-16">Rooms</p>
-      <div class="route-card" onclick="nav('coaching')"><div class="route-icon">&#9672;</div><div><h3>Coaching</h3><p>Work on what is real, using ORBIT.</p></div></div>
-      <div class="route-card" onclick="nav('journal')"><div class="route-icon">&#9678;</div><div><h3>Journal</h3><p>Reflect with a prompt written for you.</p></div></div>
-      <div class="route-card" onclick="nav('glass-box')"><div class="route-icon">&#9671;</div><div><h3>Your Model</h3><p>Everything Mara holds about you.</p></div></div>
-      <div class="divider"></div>
-      <p class="label mb-16">Growth Mirror &middot; 30 days</p>
+      <div class="flex-between mb-16"><p class="label">Growth Mirror &middot; 30 days</p><span class="text-sm text-dim">in your words</span></div>
       <div class="card card-gold">
-        <p class="body-text" style="font-style:italic;color:var(--cream);">In your first week you described your work as "just keeping my head above water." Three times since, you have talked about choosing what to take on. That is not the same person. The phrase "I should" has dropped out of how you speak about your evenings. And last Tuesday you named a boundary with your manager without once apologising for it. You did not used to do that.</p>
+        <p class="body-text" style="font-style:italic;color:var(--cream);">In your first week you described work as "just keeping my head above water." Three times since, you have talked about choosing what to take on. The phrase "I should" has dropped out of how you speak about your evenings. And last Tuesday you named a boundary with your manager without once apologising for it. You did not used to do that.</p>
+      </div>
+      <button class="btn" style="width:100%;margin-top:6px" onclick="nav('rooms')">See all seventeen rooms</button>
+    </div>
+
+    <!-- ROOMS -->
+    <div id="screen-rooms" class="screen">
+      <p class="label mb-8">The rooms</p>
+      <h2 class="display-sm mb-8">One Mara, present everywhere.</h2>
+      <p class="body-text mb-16">Seventeen rooms on one shared spine: ORBIT and the Life Model. Tap any room.</p>
+      <div id="rooms-container"></div>
+    </div>
+
+    <!-- ROOM DETAIL -->
+    <div id="screen-room" class="screen">
+      <button class="btn btn-ghost text-sm mb-16" onclick="nav('rooms')">&#8592; All rooms</button>
+      <div id="room-detail"></div>
+    </div>
+
+    <!-- VOICE -->
+    <div id="screen-voice" class="screen">
+      <p class="label center mb-8">Voice of Mara</p>
+      <div class="orb-wrap"><div class="orb" id="voice-orb" onclick="voiceTap()"><div class="orb-ring"></div><div class="orb-ring r2"></div><div class="orb-core"></div></div></div>
+      <p class="center text-dim text-sm" id="voice-status">Tap the orb. Mara will speak.</p>
+      <div class="state-bars" id="state-bars"></div>
+      <p class="center text-sm" id="state-label" style="color:var(--gold)">live state &middot; settling</p>
+
+      <div class="divider"></div>
+      <p class="label mb-8">The Ninety Second Reset</p>
+      <p class="body-text mb-8">Breath-responsive regulation. The pacer follows a real rhythm; Mara guides the turn.</p>
+      <div class="pacer" id="pacer"><span class="pacer-text" id="pacer-text">Ready</span></div>
+      <div class="center"><button class="btn btn-primary" id="breath-btn" onclick="toggleBreath()">Begin reset</button></div>
+
+      <div class="divider"></div>
+      <div class="card">
+        <p class="label mb-8">What the voice carries</p>
+        <p class="body-text">Tempo, pitch, hesitation, conviction. Mara reads where your voice tightens and slows with you. Over months she can play back how you sounded on a fear in month one, and how you sound on it now. Text is blind to all of this.</p>
       </div>
     </div>
 
@@ -138,29 +222,46 @@
       <div id="coaching-setup">
         <p class="label mb-8">Coaching</p>
         <h2 class="display-sm mb-24">What are we working on.</h2>
-        <div class="session-types" id="session-type-grid">
-          <div class="session-type-btn selected" data-type="open" onclick="selType(this)"><div class="type-name">Open</div><div class="type-desc">Let Mara read where you are</div></div>
-          <div class="session-type-btn" data-type="breakthrough" onclick="selType(this)"><div class="type-name">Breakthrough</div><div class="type-desc">Something stuck, long standing</div></div>
-          <div class="session-type-btn" data-type="decision" onclick="selType(this)"><div class="type-name">Decision</div><div class="type-desc">A choice that matters</div></div>
-          <div class="session-type-btn" data-type="confidence" onclick="selType(this)"><div class="type-name">Confidence</div><div class="type-desc">Self-doubt, worth, capability</div></div>
-          <div class="session-type-btn" data-type="anxiety" onclick="selType(this)"><div class="type-name">Anxiety</div><div class="type-desc">A spiral, a fear</div></div>
-          <div class="session-type-btn" data-type="relationship" onclick="selType(this)"><div class="type-name">Relationship</div><div class="type-desc">A dynamic, a pattern</div></div>
+        <div class="session-types" id="stg">
+          <div class="stb selected" data-type="open" onclick="selType(this)"><div class="tn">Open</div><div class="td">Let Mara read where you are</div></div>
+          <div class="stb" data-type="breakthrough" onclick="selType(this)"><div class="tn">Breakthrough</div><div class="td">Something long standing</div></div>
+          <div class="stb" data-type="decision" onclick="selType(this)"><div class="tn">Decision</div><div class="td">A choice that matters</div></div>
+          <div class="stb" data-type="confidence" onclick="selType(this)"><div class="tn">Confidence</div><div class="td">Self-doubt, worth</div></div>
+          <div class="stb" data-type="anxiety" onclick="selType(this)"><div class="tn">Anxiety</div><div class="td">A spiral, a fear</div></div>
+          <div class="stb" data-type="relationship" onclick="selType(this)"><div class="tn">Relationship</div><div class="td">A dynamic, a pattern</div></div>
         </div>
-        <button class="btn btn-primary" style="width:100%;" onclick="startSession()">Begin session</button>
+        <label class="gap-8 text-sm text-dim mb-16" style="cursor:pointer"><input type="checkbox" id="voice-toggle" style="accent-color:var(--gold)"> Let Mara speak her replies aloud</label>
+        <button class="btn btn-primary" style="width:100%" onclick="startSession()">Begin session</button>
       </div>
       <div id="coaching-active" class="hidden">
         <div class="flex-between mb-16">
           <div class="orbit-stages" id="orbit-stages">
-            <span class="orbit-stage active" data-stage="observe">O</span>
-            <span class="orbit-stage" data-stage="regulate">R</span>
-            <span class="orbit-stage" data-stage="become">B</span>
-            <span class="orbit-stage" data-stage="integrate">I</span>
-            <span class="orbit-stage" data-stage="track">T</span>
+            <span class="orbit-stage active" data-stage="observe">O</span><span class="orbit-stage" data-stage="regulate">R</span><span class="orbit-stage" data-stage="become">B</span><span class="orbit-stage" data-stage="integrate">I</span><span class="orbit-stage" data-stage="track">T</span>
           </div>
           <div class="gap-8"><span class="mode-badge" id="current-mode">companion</span><button class="btn btn-ghost text-sm" onclick="endSession()">End</button></div>
         </div>
         <div id="chat-messages"></div>
       </div>
+    </div>
+
+    <!-- TWIN -->
+    <div id="screen-twin" class="screen">
+      <p class="label center mb-8">Personal Growth Twin</p>
+      <h2 class="display-sm center mb-8">Not who you are. Who you are becoming.</h2>
+      <div class="twin-orbit" id="twin-orbit"><div class="twin-center">Emerging<br>self</div></div>
+      <div class="card card-gold" id="twin-detail"><p class="body-text" style="font-style:italic;color:var(--cream)">Tap a layer. This is a model built from evidence across thousands of moments, not a profile you filled in. After a year it is the most accurate picture of you that has ever existed.</p></div>
+    </div>
+
+    <!-- INSIGHTS -->
+    <div id="screen-insights" class="screen">
+      <p class="label mb-8">Insights &middot; Pattern Radar</p>
+      <h2 class="display-sm mb-16">What you cannot see about yourself.</h2>
+      <div class="card card-gold">
+        <p class="label mb-8">Blind spot &middot; held for three weeks</p>
+        <p class="body-text" style="color:var(--cream)">Across every area we have worked on, one thread connects them. You apologise for taking up space. In conversations, in decisions, in how you describe your own needs, even in how you talk to me. I counted. It is not low confidence in any single area. It is a belief that your existence is an imposition. I do not think you have ever seen it whole.</p>
+        <button class="btn btn-primary mt-16" onclick="nav('coaching')">Work on this</button>
+      </div>
+      <div class="card"><p class="label mb-8">Pattern &middot; loosening</p><p class="body-text">The Sunday evening spiral has appeared four times. The last two were shorter, and you reached for the reset on your own. The loop is loosening.</p></div>
     </div>
 
     <!-- JOURNAL -->
@@ -171,10 +272,7 @@
         <p class="label mb-8">Today's prompt</p>
         <p class="journal-prompt-text">You mentioned twice this week that you felt behind. Behind whom, and by whose measure?</p>
         <textarea id="journal-body" rows="5" placeholder="Write here. Mara reads this as signal."></textarea>
-        <div class="flex-between" style="margin-top:12px;">
-          <span class="text-sm text-dim" id="jcount">0 words</span>
-          <button class="btn btn-primary" onclick="saveJournal()">Save entry</button>
-        </div>
+        <div class="flex-between" style="margin-top:12px"><span class="text-sm text-dim" id="jcount">0 words</span><button class="btn btn-primary" onclick="saveJournal()">Save entry</button></div>
       </div>
       <div class="divider"></div>
       <p class="label mb-16">Previous entries</p>
@@ -185,81 +283,178 @@
     <div id="screen-glass-box" class="screen">
       <p class="label mb-8">Your Model</p>
       <h2 class="display-sm mb-8">Everything Mara holds.</h2>
-      <p class="body-text mb-24">Every entry is visible, editable and deletable. Nothing is used against you. The brighter the bar, the more evidence sits behind it.</p>
+      <p class="body-text mb-24">Every entry is visible, editable and deletable. The brighter the bar, the more evidence sits behind it.</p>
       <div id="life-model-display"></div>
     </div>
   </main>
 
   <div id="chat-bar" class="hidden">
     <div id="chat-input-row">
+      <button class="btn icon-btn" id="mic-btn" onclick="micToggle()" title="Speak">&#9685;</button>
       <textarea id="chat-input" placeholder="Speak your truth..." rows="1" onkeydown="chatKey(event)"></textarea>
-      <button class="btn btn-primary" id="chat-send" onclick="sendChat()">&#10148;</button>
+      <button class="btn btn-primary icon-btn" onclick="sendChat()">&#10148;</button>
     </div>
   </div>
 </div>
+<button class="mara-fab" onclick="nav('voice')" title="Mara is here"><span>m</span></button>
 
 <script>
-// ── Demo data ─────────────────────────────────────────────
-const LIFE_MODEL = {
-  identity: [{c:.72,t:"Sees herself as the dependable one, the person others lean on",s:"Coaching"},{c:.55,t:"Beginning to separate her worth from her usefulness to others",s:"Journal"}],
-  values: [{c:.81,t:"Protects autonomy fiercely, resents being managed",s:"Coaching"},{c:.64,t:"Family security governs most large decisions",s:"Coaching"}],
-  emotional: [{c:.78,t:"Anxiety rises on Sunday evenings, ahead of the week",s:"Voice session"},{c:.5,t:"Goes quiet rather than angry when a boundary is crossed",s:"Coaching"}],
-  behaviour: [{c:.68,t:"Says yes quickly, then resents the commitment later",s:"Coaching"},{c:.42,t:"Avoids opening difficult emails until late in the day",s:"Journal"}],
-  relationship: [{c:.6,t:"The same braced feeling appears with her manager and her mother",s:"Coaching"}],
-  ambition: [{c:.47,t:"Drawn toward work with more autonomy, unsure if allowed to want it",s:"Coaching"}],
-  confidence: [{c:.7,t:"Strong in delivery, shaky when asked to take up space",s:"Voice session"},{c:.38,t:"Doubts her judgement most in the moment a decision is needed",s:"Journal"}],
-  growth: [{c:.66,t:"Named a boundary with her manager without apologising",s:"Coaching"},{c:.52,t:"The phrase 'I should' has dropped from how she describes evenings",s:"Journal"}]
-};
-const LAYER_LABELS={identity:"Identity",values:"Values",emotional:"Emotional",behaviour:"Behaviour",relationship:"Relationship",ambition:"Ambition",confidence:"Confidence",growth:"Growth"};
-const LAYER_DESC={identity:"Who you believe yourself to be",values:"What your choices reveal you protect",emotional:"Recurring emotions, patterns, baseline",behaviour:"What you do, avoid, follow through on",relationship:"The people and dynamics that shape you",ambition:"Where you are oriented",confidence:"Self-belief by domain and its trajectory",growth:"Evidence of becoming"};
-const JOURNAL=[
-  {p:"What did you protect today that mattered to you?",b:"I said no to taking the Saturday shift. It felt rude in the moment but by the evening I was relieved. I keep noticing the gap between how a no feels when I say it and how it feels an hour later.",tags:["boundaries","relief after no"],d:"9 Jun 2026"},
-  {p:"Where did you feel most like yourself this week?",b:"Walking back from the river on Tuesday, no phone, nobody needing anything. I felt clear in a way I do not at my desk. I want more of that and I do not know how to build it in.",tags:["autonomy","clarity"],d:"4 Jun 2026"}
+// ── Rooms data ──
+const ROOMS=[
+ {f:"Daily presence",k:"today",ic:"&#9728;",n:"Today",p:"How you are arriving, then routing.",line:"One honest question replaces the feed and the streak."},
+ {f:"Coaching core",k:"coaching",ic:"&#9672;",n:"Coaching",p:"The full ORBIT process, any modality.",line:"The room where you become someone different.",flag:"live"},
+ {f:"Coaching core",k:"decision",ic:"&#9878;",n:"Decision Room",p:"Big choices, fear separated from signal.",line:"Make the decision your future self would thank you for.",moment:"You have given me twenty reasons, and nineteen are about safety. You have not once mentioned what you actually want. Shall we start there.",tools:["Values alignment","Second order thinking","Pre-mortem","Future Self consult"]},
+ {f:"Coaching core",k:"future-self",ic:"&#10022;",n:"Future Self",p:"Speak with who you are becoming.",line:"Grounded in evidence, so it never feels like theatre.",voice:true},
+ {f:"Coaching core",k:"otr",ic:"&#9679;",n:"Off the Record",p:"A private space. Nothing is written down.",line:"Say the thing you cannot say anywhere else.",moment:"Nothing here touches your model unless you ask it to. This stays between us. Say the thing underneath the thing.",tools:["No memory writes","No tracking","Pure presence","Therapist register"]},
+ {f:"Growth engines",k:"life-gps",ic:"&#9737;",n:"Life GPS",p:"Find the right question, not just the answer.",line:"Most people spend years solving the wrong problem.",moment:"You brought me three separate problems. They are not three. Underneath all of them is one question: whether you are allowed to want what you actually want.",tools:["Life Wheel","Values Compass","The defining question","Direction vector"]},
+ {f:"Growth engines",k:"twin",ic:"&#10022;",n:"Growth Twin",p:"The present, emerging and possible self.",line:"The flagship. The irreplaceable moat."},
+ {f:"Growth engines",k:"confidence",ic:"&#9650;",n:"Confidence Lab",p:"Confidence built from evidence, not pep talks.",line:"Confidence is an inference. The Lab changes the evidence.",moment:"Four months ago you said you could never speak up in a meeting. Last week you led one. I have the record. This is the same old voice, and it has been wrong every time.",tools:["Six-domain map","Evidence bank","Courage challenges","Self-trust rebuild"]},
+ {f:"Growth engines",k:"insights",ic:"&#9673;",n:"Emotional Intelligence",p:"Catches the pattern before the crisis.",line:"Anxiety, burnout, avoidance, before you register them."},
+ {f:"Growth engines",k:"relationships",ic:"&#9901;",n:"Relationships",p:"Map patterns, rehearse hard conversations.",line:"The arena where every personal pattern shows up.",moment:"The way you brace for your manager is word for word how you brace for your mother. This is not about either of them. It is a move you make with everyone who has power over how you feel.",tools:["Relationship Map","Conflict coaching","Conversation rehearsal","Attachment recognition"]},
+ {f:"Growth engines",k:"habit",ic:"&#9851;",n:"Habit Engine",p:"Change at identity, environment, nervous system.",line:"Better than a tracker, because it changes who you are.",moment:"You stopped on Thursday. I am curious, not concerned. What was different about Thursday.",tools:["Identity framing","Environment design","Implementation intentions","Compassionate restart"]},
+ {f:"Practice library",k:"voice",ic:"&#9685;",n:"Breathwork",p:"Regulation you can feel, in ninety seconds.",line:"Live, breath-responsive. Not a recording.",voice:true},
+ {f:"Practice library",k:"meditation",ic:"&#9789;",n:"Meditation",p:"Better than Calm, because it knows you.",line:"Personalised and contextual, never a cold catalogue.",moment:"The confident, settled self you are being guided to meet is not generic. It speaks in your cadence and has already moved past the exact fear you carry.",tools:["Outcome categories","Life Model visualisations","Body scans","Sleep journeys"]},
+ {f:"Practice library",k:"hypno",ic:"&#9676;",n:"Hypnotherapy",p:"Personalised, safe, evidence based.",line:"A genuine clinical strength, almost absent elsewhere.",moment:"The suggestion is not generic. It speaks to the precise belief you named three weeks ago, in your own words, about the situation you face on Tuesday.",tools:["Four-part structure","Consent + screening","Personalised scripts","Progression paths"]},
+ {f:"Reflection and proof",k:"journal",ic:"&#9678;",n:"Journal",p:"A reflection intelligence system.",line:"Mara reads entries as signal, and connects them.",flag:"live"},
+ {f:"Reflection and proof",k:"life-story",ic:"&#9783;",n:"Life Story",p:"A living autobiography that explains the present.",line:"The present is unintelligible without the past.",moment:"I think the belief running your fear today was formed in this exact moment, at thirteen. You have been protecting that child ever since. Would you like to meet them.",tools:["Life timeline","Origin mapping","Turning points","Reinterpretation"]},
+ {f:"Reflection and proof",k:"insights",ic:"&#9673;",n:"Insights",p:"Where Mara shows you what you cannot see.",line:"The magic room. The biggest wow moments.",flag:"live"},
+ {f:"Reflection and proof",k:"glass-box",ic:"&#9671;",n:"Operating System",p:"Everything moving, everything that needs you.",line:"Your whole self and growth in one honest view.",flag:"live"}
 ];
 
-// ── Canned ORBIT flow (scripted by turn) ──────────────────
+const LIFE_MODEL={
+ identity:[{c:.72,t:"Sees herself as the dependable one, the person others lean on",s:"Coaching"},{c:.55,t:"Beginning to separate her worth from her usefulness",s:"Journal"}],
+ values:[{c:.81,t:"Protects autonomy fiercely, resents being managed",s:"Coaching"},{c:.64,t:"Family security governs most large decisions",s:"Coaching"}],
+ emotional:[{c:.78,t:"Anxiety rises on Sunday evenings, ahead of the week",s:"Voice session"},{c:.5,t:"Goes quiet rather than angry when a boundary is crossed",s:"Coaching"}],
+ behaviour:[{c:.68,t:"Says yes quickly, then resents the commitment later",s:"Coaching"},{c:.42,t:"Avoids opening difficult emails until late in the day",s:"Journal"}],
+ relationship:[{c:.6,t:"The same braced feeling appears with her manager and her mother",s:"Coaching"}],
+ ambition:[{c:.47,t:"Drawn toward work with more autonomy, unsure if allowed to want it",s:"Coaching"}],
+ confidence:[{c:.7,t:"Strong in delivery, shaky when asked to take up space",s:"Voice session"},{c:.38,t:"Doubts her judgement most in the moment a decision is needed",s:"Journal"}],
+ growth:[{c:.66,t:"Named a boundary with her manager without apologising",s:"Coaching"},{c:.52,t:"The phrase 'I should' has dropped from how she describes evenings",s:"Journal"}]
+};
+const LL={identity:"Identity",values:"Values",emotional:"Emotional",behaviour:"Behaviour",relationship:"Relationship",ambition:"Ambition",confidence:"Confidence",growth:"Growth"};
+const LD={identity:"Who you believe yourself to be",values:"What your choices reveal you protect",emotional:"Recurring emotions and baseline",behaviour:"What you do, avoid, follow through on",relationship:"The people and dynamics that shape you",ambition:"Where you are oriented",confidence:"Self-belief by domain and its trajectory",growth:"Evidence of becoming"};
+const TWIN_LAYERS=[["identity","Identity"],["values","Values"],["emotional","Emotional"],["behaviour","Behaviour"],["relationship","Relations"],["ambition","Ambition"],["confidence","Confidence"],["growth","Growth"]];
+const TWIN_READ={identity:"You are moving from ‘the dependable one’ toward someone who is allowed to have needs of her own.",values:"Autonomy has become the value you will no longer trade. Six months ago you would have.",emotional:"The Sunday spiral still comes, but it is shorter, and you meet it sooner.",behaviour:"The gap between the quick yes and the later resentment is closing. You are pausing now.",relationship:"You are starting to see your part in the pattern without taking the whole blame.",ambition:"The pull toward autonomous work is getting louder, and you are letting yourself hear it.",confidence:"Delivery was always strong. Taking up space is the edge, and it is moving.",growth:"You apologise for your existence less than you did. The evidence is in your own words."};
+let JOURNAL=[
+ {p:"What did you protect today that mattered to you?",b:"I said no to the Saturday shift. Felt rude in the moment but by evening I was relieved. The gap between how a no feels when I say it and an hour later keeps surprising me.",tags:["boundaries","relief after no"],d:"9 Jun 2026"},
+ {p:"Where did you feel most like yourself this week?",b:"Walking back from the river on Tuesday, no phone, nobody needing anything. Clear in a way I am not at my desk. I want more of that.",tags:["autonomy","clarity"],d:"4 Jun 2026"}
+];
 const ORBIT_REPLIES={
-  open:["Tell me how you are arriving.","Stay with that for a moment. Where do you feel it. In the body first, before the story about it.","Good. You said the word ‘fine’ just now, but your sentences got shorter. I have learned that is often a sign you are bracing for something. What are you bracing for.","That makes sense given what you protect. Before we go further, take one slow breath out with me. Longer on the way out than the way in. There is no insight worth reaching while your system is still on guard.","Here is what I notice, and you can tell me if it lands. This is not really about the task in front of you. It is the same move you make whenever someone has a say over how you feel. Who would you have to be for this not to be a threat.","Then let us make it small and real. When the next request lands this week, before you answer, you take one breath and say ‘let me come back to you on that.’ One sentence. That is the whole practice.","Good. I am placing this in the record: that you can create a pause between the ask and the yes. We will see it again. Notice it when it happens."],
-  anxiety:["Where is the anxiety sitting. In the body first.","Do not explain it yet. Just name the sensation. Tight, hot, hollow, fast. Which one.","Thank you. Now, before we touch the thoughts, one thing. Breathe out slowly with me, longer than you breathe in. A spiral cannot be reasoned with while the body still reads danger. We settle first.","Better. Now, the thought underneath the anxiety. What is it telling you is about to go wrong.","And how many times has that exact prediction come true, in the way the fear says it will. Be honest with the record, not the fear.","So the practice is this. When the prediction starts tonight, you name it out loud: ‘this is the forecast, not the weather.’ Then one breath. That is enough.","I am holding this: that you can catch the forecast before it becomes the day. That is new. Watch for it."]
+ open:["Tell me how you are arriving.","Stay with that a moment. Where do you feel it. In the body first, before the story about it.","You said the word ‘fine,’ but your sentences got shorter. With you, that is usually bracing. What are you bracing for.","Before we go further, breathe out slowly with me, longer on the way out than the way in. No insight is worth reaching while your system is still on guard.","Here is what I notice, and you can tell me if it lands. This is not about the task in front of you. It is the same move you make whenever someone has a say over how you feel. Who would you have to be for this not to be a threat.","Then let us make it small. When the next request lands this week, before you answer, one breath, and: ‘let me come back to you on that.’ One sentence. That is the practice.","I am placing this in the record: that you can create a pause between the ask and the yes. We will see it again."],
+ anxiety:["Where is the anxiety sitting. In the body first.","Do not explain it yet. Name the sensation. Tight, hot, hollow, fast. Which one.","Now, before the thoughts, breathe out slowly with me, longer than you breathe in. A spiral cannot be reasoned with while the body still reads danger.","Better. The thought underneath. What is it telling you is about to go wrong.","And how many times has that exact prediction come true, in the way the fear says. Be honest with the record, not the fear.","So tonight, when the prediction starts: ‘this is the forecast, not the weather.’ Then one breath. That is enough.","I am holding this: that you can catch the forecast before it becomes the day."]
 };
 
-let state={screen:"today",sessionType:"open",turn:0,streaming:false};
+// ── nav ──
+let st={sessionType:"open",turn:0,streaming:false,voiceOn:false,breathing:false};
 const STAGES=["observe","regulate","regulate","become","integrate","track"];
-
 function nav(s){
   document.querySelectorAll('.nav-pill').forEach(b=>b.classList.toggle('active',b.dataset.screen===s));
   document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
-  document.getElementById('screen-'+s).classList.add('active');
-  document.getElementById('chat-bar').classList.toggle('hidden', !(s==='coaching' && !document.getElementById('coaching-active').classList.contains('hidden')));
-  state.screen=s;
+  const el=document.getElementById('screen-'+s); if(el) el.classList.add('active');
+  const coachingOpen = s==='coaching' && !document.getElementById('coaching-active').classList.contains('hidden');
+  document.getElementById('chat-bar').classList.toggle('hidden',!coachingOpen);
+  if(s!=='voice'){stopBars();stopBreath();}
+  document.querySelector('main').scrollTop=0;
 }
 document.querySelectorAll('.nav-pill').forEach(b=>b.onclick=()=>nav(b.dataset.screen));
 
-// Today arrival
-function handleArrival(){
-  const v=document.getElementById('arrival-input').value.trim();
-  if(!v) return;
-  document.getElementById('arrival-card').classList.add('hidden');
-  const r=document.getElementById('arrival-response'); r.classList.remove('hidden');
-  typeInto(document.getElementById('arrival-response-text'),"You sound steadier than the words suggest. There is something underneath the calm, and it is not loud yet. Shall we follow it in Coaching, or would you rather write it out first.");
+// ── rooms grid ──
+function renderRooms(){
+  const fams=["Daily presence","Coaching core","Growth engines","Practice library","Reflection and proof"];
+  let html='';
+  const seen=new Set();
+  for(const fam of fams){
+    html+=`<p class="fam-label">${fam}</p><div class="rooms-grid">`;
+    for(const r of ROOMS){ if(r.f!==fam) continue; const id=r.n; if(seen.has(id))continue; seen.add(id);
+      html+=`<div class="room-card" onclick="openRoom('${r.n}')">${r.flag?`<span class="flag">${r.flag}</span>`:''}<span class="ri">${r.ic}</span><h4>${r.n}</h4><p>${r.p}</p></div>`;
+    }
+    html+='</div>';
+  }
+  document.getElementById('rooms-container').innerHTML=html;
+}
+function openRoom(name){
+  const r=ROOMS.find(x=>x.n===name);
+  // flagship rooms route to their own interactive screen
+  if(["Coaching","Journal","Growth Twin","Insights","Breathwork","Future Self"].includes(name) || r.k==='glass-box' || r.k==='today'){
+    const map={Coaching:'coaching',Journal:'journal','Growth Twin':'twin',Insights:'insights',Breathwork:'voice','Future Self':'voice'};
+    nav(map[name]||r.k); return;
+  }
+  // generic rich detail
+  document.getElementById('room-detail').innerHTML=`
+    <p class="label mb-8">${r.f}</p>
+    <h2 class="display-sm mb-8">${r.n}</h2>
+    <p class="body-text" style="font-style:italic;color:var(--cream)">${r.line}</p>
+    ${r.moment?`<div class="moment-box">${r.moment}</div>`:''}
+    <p class="label mt-24 mb-8">In the room</p>
+    <div>${(r.tools||[]).map(t=>`<span class="tool-pill">${t}</span>`).join('')}</div>
+    <button class="btn btn-primary mt-24" style="width:100%" onclick="nav('${r.voice?'voice':'coaching'}')">${r.voice?'Enter in voice':'Begin a session'}</button>
+  `;
+  nav('room');
 }
 
-// Coaching
-function selType(el){document.querySelectorAll('.session-type-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');state.sessionType=el.dataset.type;}
+// ── Today ──
+function handleArrival(){
+  const v=document.getElementById('arrival-input').value.trim(); if(!v)return;
+  document.getElementById('arrival-card').classList.add('hidden');
+  const r=document.getElementById('arrival-response'); r.classList.remove('hidden');
+  typeInto(document.getElementById('arrival-response-text'),"You sound steadier than the words suggest. There is something underneath the calm, and it is not loud yet. Shall we follow it in Coaching, or speak it aloud first.");
+}
+
+// ── Voice / speech ──
+let synthVoice=null;
+function pickVoice(){ const vs=speechSynthesis.getVoices(); synthVoice=vs.find(v=>/en-GB/i.test(v.lang)&&/female|Serena|Kate|Sonia|Martha/i.test(v.name))||vs.find(v=>/en-GB/i.test(v.lang))||vs.find(v=>/en/i.test(v.lang))||vs[0]; }
+if('speechSynthesis' in window){ speechSynthesis.onvoiceschanged=pickVoice; pickVoice(); }
+function speak(text,orb){
+  if(!('speechSynthesis' in window))return;
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text.replace(/[‘’]/g,"'"));
+  if(synthVoice)u.voice=synthVoice; u.rate=.92; u.pitch=1.0;
+  if(orb){orb.classList.add('speaking'); u.onend=()=>orb.classList.remove('speaking');}
+  speechSynthesis.speak(u);
+}
+function voiceTap(){
+  const orb=document.getElementById('voice-orb');
+  startBars();
+  document.getElementById('voice-status').textContent="Mara is speaking...";
+  const line="I can hear where your voice tightens, and where it settles. We do not have to fix anything right now. Let us just slow it down together. Breathe with me.";
+  speak(line,orb);
+  document.getElementById('state-label').textContent="live state · present";
+  setTimeout(()=>{document.getElementById('voice-status').textContent="Tap the orb to hear her again.";},800);
+}
+function buildBars(){ const c=document.getElementById('state-bars'); c.innerHTML=''; for(let i=0;i<16;i++){c.appendChild(document.createElement('span'));} }
+function startBars(){ document.getElementById('state-bars').classList.add('live'); }
+function stopBars(){ document.getElementById('state-bars').classList.remove('live'); }
+
+// breathing pacer
+let breathTimer=null;
+function toggleBreath(){ st.breathing?stopBreath():startBreath(); }
+function startBreath(){
+  st.breathing=true; const p=document.getElementById('pacer'),t=document.getElementById('pacer-text'),orb=document.getElementById('voice-orb');
+  p.classList.add('run'); document.getElementById('breath-btn').textContent='Stop';
+  const cues=[["Breathe in",0],["Hold",4000],["Breathe out, slowly",6000]];
+  function cycle(){ if(!st.breathing)return;
+    t.textContent="Breathe in"; speak("Breathe in.",orb);
+    setTimeout(()=>{if(st.breathing){t.textContent="Hold";}},4000);
+    setTimeout(()=>{if(st.breathing){t.textContent="Out, slowly";speak("And out, slowly.",orb);}},5000);
+  }
+  cycle(); breathTimer=setInterval(cycle,10000);
+}
+function stopBreath(){ st.breathing=false; if(breathTimer)clearInterval(breathTimer); const p=document.getElementById('pacer'); if(p){p.classList.remove('run');document.getElementById('pacer-text').textContent='Ready';} const b=document.getElementById('breath-btn'); if(b)b.textContent='Begin reset'; if('speechSynthesis'in window)speechSynthesis.cancel(); }
+
+// ── coaching ──
+function selType(el){document.querySelectorAll('.stb').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');st.sessionType=el.dataset.type;}
 function startSession(){
-  state.turn=0;
+  st.turn=0; st.voiceOn=document.getElementById('voice-toggle').checked;
   document.getElementById('coaching-setup').classList.add('hidden');
   document.getElementById('coaching-active').classList.remove('hidden');
   document.getElementById('chat-bar').classList.remove('hidden');
-  document.getElementById('chat-messages').innerHTML='';
-  setStage(0);
-  maraReply();
+  document.getElementById('chat-messages').innerHTML=''; setStage(0); maraReply();
 }
 function endSession(){
   document.getElementById('coaching-active').classList.add('hidden');
   document.getElementById('chat-bar').classList.add('hidden');
   document.getElementById('coaching-setup').classList.remove('hidden');
-  document.getElementById('chat-messages').innerHTML='';
+  document.getElementById('chat-messages').innerHTML=''; if('speechSynthesis'in window)speechSynthesis.cancel();
 }
 function setStage(i){
   const stage=STAGES[Math.min(i,STAGES.length-1)];
@@ -267,85 +462,75 @@ function setStage(i){
   const modes={observe:"companion",regulate:"therapist",become:"mentor",integrate:"coach",track:"companion"};
   document.getElementById('current-mode').textContent=modes[stage]||"companion";
 }
-function chatKey(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();} }
-function sendChat(){
-  if(state.streaming) return;
-  const i=document.getElementById('chat-input'); const m=i.value.trim(); if(!m) return;
-  i.value='';
-  addMsg('user',m);
-  maraReply();
-}
+function chatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
+function sendChat(){ if(st.streaming)return; const i=document.getElementById('chat-input'),m=i.value.trim(); if(!m)return; i.value=''; addMsg('user',m); maraReply(); }
 function maraReply(){
-  const set=ORBIT_REPLIES[state.sessionType]||ORBIT_REPLIES.open;
-  const text=set[Math.min(state.turn,set.length-1)];
-  setStage(state.turn);
-  state.turn++;
-  state.streaming=true; document.getElementById('chat-send').disabled=true;
+  const set=ORBIT_REPLIES[st.sessionType]||ORBIT_REPLIES.open;
+  const text=set[Math.min(st.turn,set.length-1)];
+  setStage(st.turn); st.turn++; st.streaming=true; document.querySelector('#chat-bar .btn-primary').disabled=true;
   addTyping();
-  setTimeout(()=>{ rmTyping(); const el=addMsg('mara',''); typeInto(el,text,()=>{state.streaming=false;document.getElementById('chat-send').disabled=false;}); }, 650);
+  setTimeout(()=>{ rmTyping(); const el=addMsg('mara',''); if(st.voiceOn)speak(text,null);
+    typeInto(el,text,()=>{st.streaming=false;document.querySelector('#chat-bar .btn-primary').disabled=false;}); },650);
 }
 function addMsg(role,text){
-  const wrap=document.getElementById('chat-messages');
-  const d=document.createElement('div'); d.className=role==='mara'?'msg msg-mara':'msg msg-user';
+  const w=document.getElementById('chat-messages'),d=document.createElement('div');
+  d.className=role==='mara'?'msg msg-mara':'msg msg-user';
   if(role==='mara'){const n=document.createElement('div');n.className='msg-name';n.textContent='Mara';d.appendChild(n);}
-  const p=document.createElement('p'); p.textContent=text; d.appendChild(p); wrap.appendChild(d);
-  scrollChat(); return p;
+  const p=document.createElement('p');p.textContent=text;d.appendChild(p);w.appendChild(d);scrollChat();return p;
 }
-function addTyping(){
-  const wrap=document.getElementById('chat-messages');
-  const d=document.createElement('div'); d.id='typing'; d.className='msg msg-mara';
-  d.innerHTML='<div class="msg-name">Mara</div><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
-  wrap.appendChild(d); scrollChat();
-}
-function rmTyping(){ document.getElementById('typing')?.remove(); }
-function scrollChat(){ const m=document.querySelector('main'); m.scrollTop=m.scrollHeight; }
-function typeInto(el,text,done){
-  let i=0; el.textContent='';
-  const iv=setInterval(()=>{ el.textContent=text.slice(0,i++); scrollChat(); if(i>text.length){clearInterval(iv); done&&done();} },14);
+function addTyping(){const w=document.getElementById('chat-messages'),d=document.createElement('div');d.id='typing';d.className='msg msg-mara';d.innerHTML='<div class="msg-name">Mara</div><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';w.appendChild(d);scrollChat();}
+function rmTyping(){document.getElementById('typing')?.remove();}
+function scrollChat(){const m=document.querySelector('main');m.scrollTop=m.scrollHeight;}
+function typeInto(el,text,done){let i=0;el.textContent='';const iv=setInterval(()=>{el.textContent=text.slice(0,i++);scrollChat();if(i>text.length){clearInterval(iv);done&&done();}},14);}
+
+// mic (best effort)
+let rec=null,recOn=false;
+function micToggle(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){ document.getElementById('chat-input').placeholder="Voice input not supported in this browser, type instead"; return; }
+  if(recOn){rec&&rec.stop();return;}
+  rec=new SR(); rec.lang='en-GB'; rec.interimResults=true;
+  const mic=document.getElementById('mic-btn'),input=document.getElementById('chat-input');
+  rec.onstart=()=>{recOn=true;mic.classList.add('btn-primary');input.placeholder="Listening...";};
+  rec.onresult=e=>{let t='';for(const r of e.results)t+=r[0].transcript;input.value=t;};
+  rec.onend=()=>{recOn=false;mic.classList.remove('btn-primary');input.placeholder="Speak your truth...";};
+  rec.start();
 }
 
-// Journal
+// twin
+function renderTwin(){
+  const o=document.getElementById('twin-orbit'); o.querySelectorAll('.twin-node').forEach(n=>n.remove());
+  const R=100,cx=130,cy=130;
+  TWIN_LAYERS.forEach(([k,lab],i)=>{
+    const a=(i/TWIN_LAYERS.length)*Math.PI*2 - Math.PI/2;
+    const x=cx+R*Math.cos(a)-27, y=cy+R*Math.sin(a)-27;
+    const n=document.createElement('div'); n.className='twin-node'; n.style.left=x+'px'; n.style.top=y+'px'; n.textContent=lab;
+    n.onclick=()=>{document.getElementById('twin-detail').innerHTML=`<p class="label mb-8">${LL[k]} &middot; direction of movement</p><p class="body-text" style="color:var(--cream);font-style:italic">${TWIN_READ[k]}</p>`;};
+    o.appendChild(n);
+  });
+}
+
+// journal
 const jb=document.getElementById('journal-body');
 jb.addEventListener('input',()=>{const w=jb.value.trim().split(/\s+/).filter(Boolean).length;document.getElementById('jcount').textContent=w+' word'+(w!==1?'s':'');});
-function saveJournal(){
-  const b=jb.value.trim(); if(!b) return;
-  JOURNAL.unshift({p:"You mentioned twice this week that you felt behind.",b,tags:["captured just now"],d:"11 Jun 2026"});
-  jb.value=''; document.getElementById('jcount').textContent='0 words';
-  renderJournal();
-  const btn=document.querySelector('#screen-journal .btn-primary'); btn.textContent='Saved.'; setTimeout(()=>btn.textContent='Save entry',1400);
-}
-function renderJournal(){
-  document.getElementById('journal-list').innerHTML=JOURNAL.map(e=>`
-    <div class="journal-entry-card">
-      <p class="text-sm text-dim mb-8" style="font-style:italic;">${esc(e.p)}</p>
-      <p class="journal-entry-body">${esc(e.b)}</p>
-      <p class="text-sm text-dim" style="margin-top:6px;">${e.d}</p>
-      <div class="journal-tags">${e.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>
-    </div>`).join('');
-}
+function saveJournal(){const b=jb.value.trim();if(!b)return;JOURNAL.unshift({p:"You mentioned twice this week that you felt behind.",b,tags:["captured just now"],d:"11 Jun 2026"});jb.value='';document.getElementById('jcount').textContent='0 words';renderJournal();const btn=document.querySelector('#screen-journal .btn-primary');btn.textContent='Saved.';setTimeout(()=>btn.textContent='Save entry',1400);}
+function renderJournal(){document.getElementById('journal-list').innerHTML=JOURNAL.map(e=>`<div class="journal-entry-card"><p class="text-sm text-dim mb-8" style="font-style:italic">${esc(e.p)}</p><p class="journal-entry-body">${esc(e.b)}</p><p class="text-sm text-dim" style="margin-top:6px">${e.d}</p><div class="journal-tags">${e.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div></div>`).join('');}
 
-// Glass box
-function cColor(c){ return c>=.7?'#C9A76A':c>=.45?'#7A6340':'#3A3530'; }
+// glass box
+function cColor(c){return c>=.7?'#C9A76A':c>=.45?'#7A6340':'#3A3530';}
 function renderModel(){
-  const order=["identity","values","emotional","behaviour","relationship","ambition","confidence","growth"];
-  let html='';
-  for(const layer of order){
-    const items=LIFE_MODEL[layer]; if(!items) continue;
-    html+=`<div class="layer-section"><h3>${LAYER_LABELS[layer]}</h3><p class="text-sm text-dim mb-8">${LAYER_DESC[layer]}</p>`+
-      items.map((e,idx)=>`<div class="entry-row">
-        <div class="confidence-bar" style="height:${Math.round(e.c*40)}px;background:${cColor(e.c)};"></div>
-        <div style="flex:1;"><p class="entry-content">${esc(e.t)}</p><p class="entry-meta">${e.s} &middot; updated recently</p></div>
-        <button class="entry-btn" title="Remove" onclick="delEntry('${layer}',${idx})">&times;</button>
-      </div>`).join('')+`</div>`;
+  const order=["identity","values","emotional","behaviour","relationship","ambition","confidence","growth"];let html='';
+  for(const layer of order){const items=LIFE_MODEL[layer];if(!items)continue;
+    html+=`<div class="layer-section"><h3>${LL[layer]}</h3><p class="text-sm text-dim mb-8">${LD[layer]}</p>`+items.map((e,idx)=>`<div class="entry-row"><div class="confidence-bar" style="height:${Math.round(e.c*40)}px;background:${cColor(e.c)}"></div><div style="flex:1"><p class="entry-content">${esc(e.t)}</p><p class="entry-meta">${e.s} &middot; updated recently</p></div><button class="entry-btn" onclick="delEntry('${layer}',${idx})">&times;</button></div>`).join('')+`</div>`;
   }
   document.getElementById('life-model-display').innerHTML=html;
 }
-function delEntry(layer,idx){ LIFE_MODEL[layer].splice(idx,1); if(!LIFE_MODEL[layer].length) delete LIFE_MODEL[layer]; renderModel(); }
+function delEntry(layer,idx){LIFE_MODEL[layer].splice(idx,1);if(!LIFE_MODEL[layer].length)delete LIFE_MODEL[layer];renderModel();}
 
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function setGreeting(){const h=new Date().getHours();document.getElementById('today-greeting').textContent=h<12?"Good morning.":h<17?"Good afternoon.":"Good evening.";}
+function setGreeting(){const h=new Date().getHours();document.getElementById('today-greeting').textContent=h<12?"How are you arriving.":h<17?"How are you arriving.":"How are you arriving.";}
 
-setGreeting(); renderJournal(); renderModel();
+buildBars();renderRooms();renderTwin();renderJournal();renderModel();setGreeting();
 </script>
 </body>
 </html>
