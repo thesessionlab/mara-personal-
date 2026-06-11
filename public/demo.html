@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Mara Personal · Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black:#0C0B0A; --surface:#161513; --surface-2:#1E1C1A; --border:#2C2924;
+    --gold:#C9A76A; --gold-dim:#7A6340; --cream:#F0EAE0; --cream-dim:#9A9288; --white:#FDFAF6; --danger:#8B3A2E;
+    --font-display:'Cormorant Garamond',serif; --font-body:'Jost',sans-serif;
+  }
+  html,body { height:100%; background:var(--black); color:var(--cream); font-family:var(--font-body); font-weight:300; font-size:16px; line-height:1.6; }
+  #app { display:flex; flex-direction:column; height:100dvh; max-width:600px; margin:0 auto; }
+  header { display:flex; align-items:center; justify-content:space-between; padding:18px 22px 14px; border-bottom:1px solid var(--border); flex-shrink:0; }
+  .wordmark { font-family:var(--font-display); font-size:21px; letter-spacing:0.04em; color:var(--white); }
+  .wordmark span { color:var(--gold); }
+  .demo-tag { font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-dim); border:1px solid var(--border); border-radius:100px; padding:3px 8px; }
+  .nav-pills { display:flex; gap:2px; }
+  .nav-pill { font-size:10px; font-weight:400; letter-spacing:0.06em; text-transform:uppercase; color:var(--cream-dim); background:none; border:none; padding:6px 8px; border-radius:20px; cursor:pointer; transition:.2s; }
+  .nav-pill:hover { color:var(--cream); }
+  .nav-pill.active { color:var(--gold); background:rgba(201,167,106,.08); }
+  main { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+  .screen { display:none; padding:28px 22px; }
+  .screen.active { display:block; }
+  .display-sm { font-family:var(--font-display); font-size:25px; font-weight:300; line-height:1.3; color:var(--white); }
+  .label { font-size:10px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); }
+  .body-text { font-size:15px; font-weight:300; line-height:1.7; color:var(--cream-dim); }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; margin-bottom:12px; }
+  .card-gold { border-color:var(--gold-dim); background:rgba(201,167,106,.04); }
+  .btn { display:inline-flex; align-items:center; justify-content:center; font-family:var(--font-body); font-size:12px; font-weight:400; letter-spacing:0.06em; text-transform:uppercase; padding:11px 22px; border-radius:100px; border:1px solid var(--border); background:none; color:var(--cream-dim); cursor:pointer; transition:.2s; }
+  .btn:hover { border-color:var(--gold-dim); color:var(--cream); }
+  .btn-primary { background:var(--gold); border-color:var(--gold); color:var(--black); }
+  .btn-primary:hover { background:var(--cream); border-color:var(--cream); color:var(--black); }
+  .btn-ghost { border:none; padding:8px 10px; }
+  textarea { width:100%; background:var(--surface-2); border:1px solid var(--border); border-radius:10px; color:var(--cream); font-family:var(--font-body); font-size:15px; font-weight:300; line-height:1.6; padding:13px 15px; resize:none; outline:none; }
+  textarea:focus { border-color:var(--gold-dim); }
+  textarea::placeholder { color:var(--cream-dim); opacity:.5; }
+  #today-greeting { font-family:var(--font-display); font-size:27px; line-height:1.3; color:var(--white); margin-bottom:6px; }
+  .route-card { display:flex; align-items:center; gap:15px; padding:16px 18px; background:var(--surface); border:1px solid var(--border); border-radius:12px; margin-bottom:10px; cursor:pointer; transition:.2s; }
+  .route-card:hover { border-color:var(--gold-dim); background:var(--surface-2); }
+  .route-icon { width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; background:var(--surface-2); border:1px solid var(--border); color:var(--gold); }
+  .route-card h3 { font-family:var(--font-display); font-size:18px; font-weight:400; color:var(--white); margin-bottom:1px; }
+  .route-card p { font-size:12px; color:var(--cream-dim); }
+  .divider { height:1px; background:var(--border); margin:22px 0; }
+  .session-types { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:22px; }
+  .session-type-btn { padding:13px; background:var(--surface); border:1px solid var(--border); border-radius:10px; text-align:left; cursor:pointer; transition:.2s; }
+  .session-type-btn:hover { border-color:var(--gold-dim); background:var(--surface-2); }
+  .session-type-btn.selected { border-color:var(--gold); background:rgba(201,167,106,.06); }
+  .session-type-btn .type-name { font-family:var(--font-display); font-size:16px; color:var(--white); margin-bottom:1px; }
+  .session-type-btn .type-desc { font-size:11px; color:var(--cream-dim); }
+  .orbit-stages { display:flex; gap:6px; }
+  .orbit-stage { font-size:10px; letter-spacing:0.1em; color:var(--cream-dim); padding:4px 9px; border-radius:100px; border:1px solid var(--border); transition:.2s; }
+  .orbit-stage.active { color:var(--gold); border-color:var(--gold-dim); background:rgba(201,167,106,.08); }
+  .mode-badge { font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--cream-dim); border:1px solid var(--border); border-radius:100px; padding:3px 9px; }
+  #chat-messages { display:flex; flex-direction:column; gap:15px; padding:18px 0 16px; }
+  .msg { max-width:88%; line-height:1.65; }
+  .msg-mara { align-self:flex-start; font-size:15px; color:var(--cream); }
+  .msg-mara .msg-name { font-size:10px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:5px; }
+  .msg-user { align-self:flex-end; background:var(--surface-2); border:1px solid var(--border); border-radius:12px 12px 3px 12px; padding:11px 15px; font-size:15px; color:var(--cream-dim); }
+  .typing-dot { display:inline-block; width:5px; height:5px; border-radius:50%; background:var(--gold-dim); animation:dp 1.4s infinite ease-in-out both; }
+  .typing-dot:nth-child(2){animation-delay:.2s} .typing-dot:nth-child(3){animation-delay:.4s}
+  @keyframes dp { 0%,80%,100%{opacity:.2;transform:scale(.8)} 40%{opacity:1;transform:scale(1)} }
+  #chat-bar { padding:14px 22px 22px; border-top:1px solid var(--border); flex-shrink:0; background:var(--black); }
+  #chat-input-row { display:flex; gap:9px; align-items:flex-end; }
+  #chat-input { flex:1; min-height:44px; max-height:120px; overflow-y:auto; }
+  #chat-send { width:44px; height:44px; border-radius:50%; padding:0; flex-shrink:0; font-size:15px; }
+  .journal-prompt-box { background:var(--surface-2); border:1px solid var(--gold-dim); border-radius:12px; padding:18px; margin-bottom:22px; }
+  .journal-prompt-text { font-family:var(--font-display); font-size:19px; font-style:italic; color:var(--cream); line-height:1.4; margin-bottom:14px; }
+  .journal-entry-card { padding:15px 0; border-bottom:1px solid var(--border); }
+  .journal-entry-card:last-child { border-bottom:none; }
+  .journal-entry-body { font-size:14px; color:var(--cream); line-height:1.65; }
+  .journal-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .tag { font-size:10px; letter-spacing:0.06em; color:var(--cream-dim); background:var(--surface-2); border:1px solid var(--border); border-radius:100px; padding:3px 8px; }
+  .layer-section { margin-bottom:22px; }
+  .layer-section h3 { font-size:10px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; padding-bottom:7px; border-bottom:1px solid var(--border); }
+  .entry-row { display:flex; align-items:flex-start; gap:10px; padding:9px 0; border-bottom:1px solid rgba(44,41,36,.5); }
+  .entry-row:last-child { border-bottom:none; }
+  .entry-content { flex:1; font-size:14px; color:var(--cream); line-height:1.5; }
+  .entry-meta { font-size:10px; color:var(--cream-dim); margin-top:3px; }
+  .confidence-bar { width:3px; border-radius:2px; flex-shrink:0; margin-top:4px; }
+  .entry-btn { font-size:14px; color:var(--cream-dim); background:none; border:none; cursor:pointer; padding:3px; }
+  .entry-btn:hover { color:var(--danger); }
+  .mt-16{margin-top:16px} .mb-8{margin-bottom:8px} .mb-16{margin-bottom:16px} .mb-24{margin-bottom:24px}
+  .flex-between{display:flex;justify-content:space-between;align-items:center} .gap-8{display:flex;gap:8px;align-items:center}
+  .text-dim{color:var(--cream-dim)} .text-sm{font-size:13px} .hidden{display:none!important}
+  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+  @media (max-width:480px){ .session-types{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="gap-8"><div class="wordmark">Mara <span>Personal</span></div><span class="demo-tag">Demo</span></div>
+    <nav class="nav-pills">
+      <button class="nav-pill active" data-screen="today">Today</button>
+      <button class="nav-pill" data-screen="coaching">Coaching</button>
+      <button class="nav-pill" data-screen="journal">Journal</button>
+      <button class="nav-pill" data-screen="glass-box">Model</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- TODAY -->
+    <div id="screen-today" class="screen active">
+      <p class="label mb-8">Today</p>
+      <h1 id="today-greeting">How are you arriving.</h1>
+      <p class="text-dim text-sm mb-24">Speak, type, or simply choose where to go.</p>
+      <div class="card card-gold mb-16" id="arrival-card">
+        <textarea id="arrival-input" rows="2" placeholder="What is true for you right now..." style="background:none;border:none;padding:0;font-family:var(--font-display);font-size:18px;"></textarea>
+        <div class="flex-between mt-16">
+          <span class="text-sm text-dim">There is no wrong answer.</span>
+          <button class="btn btn-primary" onclick="handleArrival()">Begin</button>
+        </div>
+      </div>
+      <div id="arrival-response" class="card hidden">
+        <p class="label mb-8">Mara</p>
+        <p id="arrival-response-text" class="body-text" style="color:var(--cream);font-size:16px;"></p>
+      </div>
+      <div class="divider"></div>
+      <p class="label mb-16">Rooms</p>
+      <div class="route-card" onclick="nav('coaching')"><div class="route-icon">&#9672;</div><div><h3>Coaching</h3><p>Work on what is real, using ORBIT.</p></div></div>
+      <div class="route-card" onclick="nav('journal')"><div class="route-icon">&#9678;</div><div><h3>Journal</h3><p>Reflect with a prompt written for you.</p></div></div>
+      <div class="route-card" onclick="nav('glass-box')"><div class="route-icon">&#9671;</div><div><h3>Your Model</h3><p>Everything Mara holds about you.</p></div></div>
+      <div class="divider"></div>
+      <p class="label mb-16">Growth Mirror &middot; 30 days</p>
+      <div class="card card-gold">
+        <p class="body-text" style="font-style:italic;color:var(--cream);">In your first week you described your work as "just keeping my head above water." Three times since, you have talked about choosing what to take on. That is not the same person. The phrase "I should" has dropped out of how you speak about your evenings. And last Tuesday you named a boundary with your manager without once apologising for it. You did not used to do that.</p>
+      </div>
+    </div>
+
+    <!-- COACHING -->
+    <div id="screen-coaching" class="screen">
+      <div id="coaching-setup">
+        <p class="label mb-8">Coaching</p>
+        <h2 class="display-sm mb-24">What are we working on.</h2>
+        <div class="session-types" id="session-type-grid">
+          <div class="session-type-btn selected" data-type="open" onclick="selType(this)"><div class="type-name">Open</div><div class="type-desc">Let Mara read where you are</div></div>
+          <div class="session-type-btn" data-type="breakthrough" onclick="selType(this)"><div class="type-name">Breakthrough</div><div class="type-desc">Something stuck, long standing</div></div>
+          <div class="session-type-btn" data-type="decision" onclick="selType(this)"><div class="type-name">Decision</div><div class="type-desc">A choice that matters</div></div>
+          <div class="session-type-btn" data-type="confidence" onclick="selType(this)"><div class="type-name">Confidence</div><div class="type-desc">Self-doubt, worth, capability</div></div>
+          <div class="session-type-btn" data-type="anxiety" onclick="selType(this)"><div class="type-name">Anxiety</div><div class="type-desc">A spiral, a fear</div></div>
+          <div class="session-type-btn" data-type="relationship" onclick="selType(this)"><div class="type-name">Relationship</div><div class="type-desc">A dynamic, a pattern</div></div>
+        </div>
+        <button class="btn btn-primary" style="width:100%;" onclick="startSession()">Begin session</button>
+      </div>
+      <div id="coaching-active" class="hidden">
+        <div class="flex-between mb-16">
+          <div class="orbit-stages" id="orbit-stages">
+            <span class="orbit-stage active" data-stage="observe">O</span>
+            <span class="orbit-stage" data-stage="regulate">R</span>
+            <span class="orbit-stage" data-stage="become">B</span>
+            <span class="orbit-stage" data-stage="integrate">I</span>
+            <span class="orbit-stage" data-stage="track">T</span>
+          </div>
+          <div class="gap-8"><span class="mode-badge" id="current-mode">companion</span><button class="btn btn-ghost text-sm" onclick="endSession()">End</button></div>
+        </div>
+        <div id="chat-messages"></div>
+      </div>
+    </div>
+
+    <!-- JOURNAL -->
+    <div id="screen-journal" class="screen">
+      <p class="label mb-8">Journal</p>
+      <h2 class="display-sm mb-24">Reflection intelligence.</h2>
+      <div class="journal-prompt-box">
+        <p class="label mb-8">Today's prompt</p>
+        <p class="journal-prompt-text">You mentioned twice this week that you felt behind. Behind whom, and by whose measure?</p>
+        <textarea id="journal-body" rows="5" placeholder="Write here. Mara reads this as signal."></textarea>
+        <div class="flex-between" style="margin-top:12px;">
+          <span class="text-sm text-dim" id="jcount">0 words</span>
+          <button class="btn btn-primary" onclick="saveJournal()">Save entry</button>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <p class="label mb-16">Previous entries</p>
+      <div id="journal-list"></div>
+    </div>
+
+    <!-- GLASS BOX -->
+    <div id="screen-glass-box" class="screen">
+      <p class="label mb-8">Your Model</p>
+      <h2 class="display-sm mb-8">Everything Mara holds.</h2>
+      <p class="body-text mb-24">Every entry is visible, editable and deletable. Nothing is used against you. The brighter the bar, the more evidence sits behind it.</p>
+      <div id="life-model-display"></div>
+    </div>
+  </main>
+
+  <div id="chat-bar" class="hidden">
+    <div id="chat-input-row">
+      <textarea id="chat-input" placeholder="Speak your truth..." rows="1" onkeydown="chatKey(event)"></textarea>
+      <button class="btn btn-primary" id="chat-send" onclick="sendChat()">&#10148;</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Demo data ─────────────────────────────────────────────
+const LIFE_MODEL = {
+  identity: [{c:.72,t:"Sees herself as the dependable one, the person others lean on",s:"Coaching"},{c:.55,t:"Beginning to separate her worth from her usefulness to others",s:"Journal"}],
+  values: [{c:.81,t:"Protects autonomy fiercely, resents being managed",s:"Coaching"},{c:.64,t:"Family security governs most large decisions",s:"Coaching"}],
+  emotional: [{c:.78,t:"Anxiety rises on Sunday evenings, ahead of the week",s:"Voice session"},{c:.5,t:"Goes quiet rather than angry when a boundary is crossed",s:"Coaching"}],
+  behaviour: [{c:.68,t:"Says yes quickly, then resents the commitment later",s:"Coaching"},{c:.42,t:"Avoids opening difficult emails until late in the day",s:"Journal"}],
+  relationship: [{c:.6,t:"The same braced feeling appears with her manager and her mother",s:"Coaching"}],
+  ambition: [{c:.47,t:"Drawn toward work with more autonomy, unsure if allowed to want it",s:"Coaching"}],
+  confidence: [{c:.7,t:"Strong in delivery, shaky when asked to take up space",s:"Voice session"},{c:.38,t:"Doubts her judgement most in the moment a decision is needed",s:"Journal"}],
+  growth: [{c:.66,t:"Named a boundary with her manager without apologising",s:"Coaching"},{c:.52,t:"The phrase 'I should' has dropped from how she describes evenings",s:"Journal"}]
+};
+const LAYER_LABELS={identity:"Identity",values:"Values",emotional:"Emotional",behaviour:"Behaviour",relationship:"Relationship",ambition:"Ambition",confidence:"Confidence",growth:"Growth"};
+const LAYER_DESC={identity:"Who you believe yourself to be",values:"What your choices reveal you protect",emotional:"Recurring emotions, patterns, baseline",behaviour:"What you do, avoid, follow through on",relationship:"The people and dynamics that shape you",ambition:"Where you are oriented",confidence:"Self-belief by domain and its trajectory",growth:"Evidence of becoming"};
+const JOURNAL=[
+  {p:"What did you protect today that mattered to you?",b:"I said no to taking the Saturday shift. It felt rude in the moment but by the evening I was relieved. I keep noticing the gap between how a no feels when I say it and how it feels an hour later.",tags:["boundaries","relief after no"],d:"9 Jun 2026"},
+  {p:"Where did you feel most like yourself this week?",b:"Walking back from the river on Tuesday, no phone, nobody needing anything. I felt clear in a way I do not at my desk. I want more of that and I do not know how to build it in.",tags:["autonomy","clarity"],d:"4 Jun 2026"}
+];
+
+// ── Canned ORBIT flow (scripted by turn) ──────────────────
+const ORBIT_REPLIES={
+  open:["Tell me how you are arriving.","Stay with that for a moment. Where do you feel it. In the body first, before the story about it.","Good. You said the word ‘fine’ just now, but your sentences got shorter. I have learned that is often a sign you are bracing for something. What are you bracing for.","That makes sense given what you protect. Before we go further, take one slow breath out with me. Longer on the way out than the way in. There is no insight worth reaching while your system is still on guard.","Here is what I notice, and you can tell me if it lands. This is not really about the task in front of you. It is the same move you make whenever someone has a say over how you feel. Who would you have to be for this not to be a threat.","Then let us make it small and real. When the next request lands this week, before you answer, you take one breath and say ‘let me come back to you on that.’ One sentence. That is the whole practice.","Good. I am placing this in the record: that you can create a pause between the ask and the yes. We will see it again. Notice it when it happens."],
+  anxiety:["Where is the anxiety sitting. In the body first.","Do not explain it yet. Just name the sensation. Tight, hot, hollow, fast. Which one.","Thank you. Now, before we touch the thoughts, one thing. Breathe out slowly with me, longer than you breathe in. A spiral cannot be reasoned with while the body still reads danger. We settle first.","Better. Now, the thought underneath the anxiety. What is it telling you is about to go wrong.","And how many times has that exact prediction come true, in the way the fear says it will. Be honest with the record, not the fear.","So the practice is this. When the prediction starts tonight, you name it out loud: ‘this is the forecast, not the weather.’ Then one breath. That is enough.","I am holding this: that you can catch the forecast before it becomes the day. That is new. Watch for it."]
+};
+
+let state={screen:"today",sessionType:"open",turn:0,streaming:false};
+const STAGES=["observe","regulate","regulate","become","integrate","track"];
+
+function nav(s){
+  document.querySelectorAll('.nav-pill').forEach(b=>b.classList.toggle('active',b.dataset.screen===s));
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+  document.getElementById('screen-'+s).classList.add('active');
+  document.getElementById('chat-bar').classList.toggle('hidden', !(s==='coaching' && !document.getElementById('coaching-active').classList.contains('hidden')));
+  state.screen=s;
+}
+document.querySelectorAll('.nav-pill').forEach(b=>b.onclick=()=>nav(b.dataset.screen));
+
+// Today arrival
+function handleArrival(){
+  const v=document.getElementById('arrival-input').value.trim();
+  if(!v) return;
+  document.getElementById('arrival-card').classList.add('hidden');
+  const r=document.getElementById('arrival-response'); r.classList.remove('hidden');
+  typeInto(document.getElementById('arrival-response-text'),"You sound steadier than the words suggest. There is something underneath the calm, and it is not loud yet. Shall we follow it in Coaching, or would you rather write it out first.");
+}
+
+// Coaching
+function selType(el){document.querySelectorAll('.session-type-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');state.sessionType=el.dataset.type;}
+function startSession(){
+  state.turn=0;
+  document.getElementById('coaching-setup').classList.add('hidden');
+  document.getElementById('coaching-active').classList.remove('hidden');
+  document.getElementById('chat-bar').classList.remove('hidden');
+  document.getElementById('chat-messages').innerHTML='';
+  setStage(0);
+  maraReply();
+}
+function endSession(){
+  document.getElementById('coaching-active').classList.add('hidden');
+  document.getElementById('chat-bar').classList.add('hidden');
+  document.getElementById('coaching-setup').classList.remove('hidden');
+  document.getElementById('chat-messages').innerHTML='';
+}
+function setStage(i){
+  const stage=STAGES[Math.min(i,STAGES.length-1)];
+  document.querySelectorAll('.orbit-stage').forEach(s=>s.classList.toggle('active',s.dataset.stage===stage));
+  const modes={observe:"companion",regulate:"therapist",become:"mentor",integrate:"coach",track:"companion"};
+  document.getElementById('current-mode').textContent=modes[stage]||"companion";
+}
+function chatKey(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();} }
+function sendChat(){
+  if(state.streaming) return;
+  const i=document.getElementById('chat-input'); const m=i.value.trim(); if(!m) return;
+  i.value='';
+  addMsg('user',m);
+  maraReply();
+}
+function maraReply(){
+  const set=ORBIT_REPLIES[state.sessionType]||ORBIT_REPLIES.open;
+  const text=set[Math.min(state.turn,set.length-1)];
+  setStage(state.turn);
+  state.turn++;
+  state.streaming=true; document.getElementById('chat-send').disabled=true;
+  addTyping();
+  setTimeout(()=>{ rmTyping(); const el=addMsg('mara',''); typeInto(el,text,()=>{state.streaming=false;document.getElementById('chat-send').disabled=false;}); }, 650);
+}
+function addMsg(role,text){
+  const wrap=document.getElementById('chat-messages');
+  const d=document.createElement('div'); d.className=role==='mara'?'msg msg-mara':'msg msg-user';
+  if(role==='mara'){const n=document.createElement('div');n.className='msg-name';n.textContent='Mara';d.appendChild(n);}
+  const p=document.createElement('p'); p.textContent=text; d.appendChild(p); wrap.appendChild(d);
+  scrollChat(); return p;
+}
+function addTyping(){
+  const wrap=document.getElementById('chat-messages');
+  const d=document.createElement('div'); d.id='typing'; d.className='msg msg-mara';
+  d.innerHTML='<div class="msg-name">Mara</div><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+  wrap.appendChild(d); scrollChat();
+}
+function rmTyping(){ document.getElementById('typing')?.remove(); }
+function scrollChat(){ const m=document.querySelector('main'); m.scrollTop=m.scrollHeight; }
+function typeInto(el,text,done){
+  let i=0; el.textContent='';
+  const iv=setInterval(()=>{ el.textContent=text.slice(0,i++); scrollChat(); if(i>text.length){clearInterval(iv); done&&done();} },14);
+}
+
+// Journal
+const jb=document.getElementById('journal-body');
+jb.addEventListener('input',()=>{const w=jb.value.trim().split(/\s+/).filter(Boolean).length;document.getElementById('jcount').textContent=w+' word'+(w!==1?'s':'');});
+function saveJournal(){
+  const b=jb.value.trim(); if(!b) return;
+  JOURNAL.unshift({p:"You mentioned twice this week that you felt behind.",b,tags:["captured just now"],d:"11 Jun 2026"});
+  jb.value=''; document.getElementById('jcount').textContent='0 words';
+  renderJournal();
+  const btn=document.querySelector('#screen-journal .btn-primary'); btn.textContent='Saved.'; setTimeout(()=>btn.textContent='Save entry',1400);
+}
+function renderJournal(){
+  document.getElementById('journal-list').innerHTML=JOURNAL.map(e=>`
+    <div class="journal-entry-card">
+      <p class="text-sm text-dim mb-8" style="font-style:italic;">${esc(e.p)}</p>
+      <p class="journal-entry-body">${esc(e.b)}</p>
+      <p class="text-sm text-dim" style="margin-top:6px;">${e.d}</p>
+      <div class="journal-tags">${e.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>
+    </div>`).join('');
+}
+
+// Glass box
+function cColor(c){ return c>=.7?'#C9A76A':c>=.45?'#7A6340':'#3A3530'; }
+function renderModel(){
+  const order=["identity","values","emotional","behaviour","relationship","ambition","confidence","growth"];
+  let html='';
+  for(const layer of order){
+    const items=LIFE_MODEL[layer]; if(!items) continue;
+    html+=`<div class="layer-section"><h3>${LAYER_LABELS[layer]}</h3><p class="text-sm text-dim mb-8">${LAYER_DESC[layer]}</p>`+
+      items.map((e,idx)=>`<div class="entry-row">
+        <div class="confidence-bar" style="height:${Math.round(e.c*40)}px;background:${cColor(e.c)};"></div>
+        <div style="flex:1;"><p class="entry-content">${esc(e.t)}</p><p class="entry-meta">${e.s} &middot; updated recently</p></div>
+        <button class="entry-btn" title="Remove" onclick="delEntry('${layer}',${idx})">&times;</button>
+      </div>`).join('')+`</div>`;
+  }
+  document.getElementById('life-model-display').innerHTML=html;
+}
+function delEntry(layer,idx){ LIFE_MODEL[layer].splice(idx,1); if(!LIFE_MODEL[layer].length) delete LIFE_MODEL[layer]; renderModel(); }
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function setGreeting(){const h=new Date().getHours();document.getElementById('today-greeting').textContent=h<12?"Good morning.":h<17?"Good afternoon.":"Good evening.";}
+
+setGreeting(); renderJournal(); renderModel();
+</script>
+</body>
+</html>
