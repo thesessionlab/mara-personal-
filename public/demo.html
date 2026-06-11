@@ -151,7 +151,6 @@
     <div style="display:flex;align-items:center"><div class="wordmark">Mara <span>Personal</span></div><span class="demo-tag">Demo</span></div>
     <nav class="nav-pills">
       <button class="nav-pill active" data-screen="today">Today</button>
-      <button class="nav-pill" data-screen="rooms">Rooms</button>
       <button class="nav-pill" data-screen="voice">Voice</button>
       <button class="nav-pill" data-screen="twin">Twin</button>
       <button class="nav-pill" data-screen="glass-box">Model</button>
@@ -179,20 +178,15 @@
       <div class="card card-gold">
         <p class="body-text" style="font-style:italic;color:var(--cream);">In your first week you described work as "just keeping my head above water." Three times since, you have talked about choosing what to take on. The phrase "I should" has dropped out of how you speak about your evenings. And last Tuesday you named a boundary with your manager without once apologising for it. You did not used to do that.</p>
       </div>
-      <button class="btn" style="width:100%;margin-top:6px" onclick="nav('rooms')">See all seventeen rooms</button>
-    </div>
-
-    <!-- ROOMS -->
-    <div id="screen-rooms" class="screen">
-      <p class="label mb-8">The rooms</p>
-      <h2 class="display-sm mb-8">One Mara, present everywhere.</h2>
+      <div class="divider"></div>
+      <div class="flex-between mb-8"><p class="label">The rooms</p><span class="text-sm text-dim">one Mara, everywhere</span></div>
       <p class="body-text mb-16">Seventeen rooms on one shared spine: ORBIT and the Life Model. Tap any room.</p>
       <div id="rooms-container"></div>
     </div>
 
     <!-- ROOM DETAIL -->
     <div id="screen-room" class="screen">
-      <button class="btn btn-ghost text-sm mb-16" onclick="nav('rooms')">&#8592; All rooms</button>
+      <button class="btn btn-ghost text-sm mb-16" onclick="nav('today')">&#8592; Home</button>
       <div id="room-detail"></div>
     </div>
 
