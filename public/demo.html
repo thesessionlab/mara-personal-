@@ -136,6 +136,25 @@
   .tag{font-size:10px;letter-spacing:.06em;color:var(--cream-dim);background:var(--surface-2);border:1px solid var(--border);border-radius:100px;padding:3px 8px}
   .tool-pill{display:inline-block;font-size:12px;color:var(--cream);background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:7px 11px;margin:0 6px 6px 0}
   .moment-box{border-left:2px solid var(--gold);padding:4px 0 4px 14px;margin:16px 0;font-family:var(--fd);font-style:italic;font-size:17px;color:var(--cream);line-height:1.5}
+  .field{margin-bottom:13px}
+  .field label{display:block;font-size:11px;letter-spacing:.05em;color:var(--gold);margin-bottom:5px}
+  .field .hint{color:var(--cream-dim);text-transform:none;letter-spacing:0;font-size:11px}
+  .field input,.field textarea{width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:9px;color:var(--cream);font-family:var(--fb);font-size:14px;font-weight:300;padding:10px 12px;outline:none;resize:none}
+  .field input:focus,.field textarea:focus{border-color:var(--gold-dim)}
+  .goal-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px}
+  .goal-card h4{font-family:var(--fd);font-size:19px;font-weight:400;color:var(--white);margin-bottom:8px;line-height:1.3}
+  .goal-line{font-size:12px;color:var(--cream-dim);line-height:1.55;margin-bottom:4px}
+  .goal-line b{color:var(--gold);font-weight:400}
+  .goal-strat{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:13px;color:var(--cream)}
+  .cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+  .cal-dow{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--cream-dim);text-align:center;padding:2px 0}
+  .cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:9px;border:1px solid var(--border);font-size:13px;color:var(--cream-dim);cursor:pointer;position:relative;transition:.2s}
+  .cal-day:hover{border-color:var(--gold-dim);color:var(--cream)}
+  .cal-day.has{color:var(--cream)}
+  .cal-day.has::after{content:"";position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--gold)}
+  .cal-day.empty{border:none;cursor:default}
+  .cal-day.sel{border-color:var(--gold);color:var(--gold);background:rgba(201,167,106,.08)}
 
   /* floating Mara */
   .mara-fab{position:fixed;bottom:18px;right:18px;z-index:20;width:54px;height:54px;border-radius:50%;background:radial-gradient(circle at 38% 35%,var(--gold-bright),var(--gold-dim));box-shadow:0 0 24px rgba(201,167,106,.5);cursor:pointer;animation:breathe 5s ease-in-out infinite;border:none}
@@ -151,8 +170,9 @@
     <div style="display:flex;align-items:center"><div class="wordmark">Mara <span>Personal</span></div><span class="demo-tag">Demo</span></div>
     <nav class="nav-pills">
       <button class="nav-pill active" data-screen="today">Today</button>
+      <button class="nav-pill" data-screen="goals">Goals</button>
+      <button class="nav-pill" data-screen="calendar">Calendar</button>
       <button class="nav-pill" data-screen="voice">Voice</button>
-      <button class="nav-pill" data-screen="twin">Twin</button>
       <button class="nav-pill" data-screen="glass-box">Model</button>
     </nav>
   </header>
@@ -182,6 +202,42 @@
       <div class="flex-between mb-8"><p class="label">The rooms</p><span class="text-sm text-dim">one Mara, everywhere</span></div>
       <p class="body-text mb-16">Seventeen rooms on one shared spine: ORBIT and the Life Model. Tap any room.</p>
       <div id="rooms-container"></div>
+    </div>
+
+    <!-- GOALS -->
+    <div id="screen-goals" class="screen">
+      <p class="label mb-8">Goals</p>
+      <h2 class="display-sm mb-8">Well-formed outcomes.</h2>
+      <p class="body-text mb-24">A goal is not a wish. Mara shapes yours into an NLP well-formed outcome: stated in the positive, within your control, with real evidence of arrival, and good for the whole of your life. Then one strategy to begin.</p>
+
+      <div class="card mb-24">
+        <div class="field"><label>The outcome <span class="hint">stated as what you do want, not what you want to stop</span></label><input id="g-goal" placeholder="e.g. I lead the Monday meeting with a settled, steady voice"></div>
+        <div class="field"><label>Evidence <span class="hint">what will you see, hear, feel when you have it</span></label><textarea id="g-evidence" rows="2" placeholder="e.g. I finish without rushing, my hands are still, people ask follow-up questions"></textarea></div>
+        <div class="field"><label>In your control <span class="hint">the part that is down to you</span></label><input id="g-control" placeholder="e.g. I prepare three points and breathe before I start"></div>
+        <div class="field"><label>Context <span class="hint">where, when, with whom, by when</span></label><input id="g-context" placeholder="e.g. Mondays, my team, starting this week"></div>
+        <div class="field"><label>Ecology check <span class="hint">what does having this cost or change, is it good for the wider whole</span></label><input id="g-ecology" placeholder="e.g. less time over-preparing in the evenings, which my family will feel"></div>
+        <div class="field"><label>First strategy <span class="hint">the one small step</span></label><input id="g-strategy" placeholder="e.g. Friday, write the three points and read them aloud once"></div>
+        <button class="btn btn-primary" style="width:100%" onclick="addGoal()">Set this goal</button>
+      </div>
+
+      <div class="flex-between mb-16"><p class="label">Active goals</p><span class="text-sm text-dim">Mara is tracking these</span></div>
+      <div id="goals-list"></div>
+    </div>
+
+    <!-- CALENDAR -->
+    <div id="screen-calendar" class="screen">
+      <p class="label mb-8">Calendar journal</p>
+      <h2 class="display-sm mb-16">Your days, reckoned with.</h2>
+      <div class="card card-gold mb-24" style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <div><p style="color:var(--cream);font-size:14px;margin-bottom:2px">Google Calendar</p><p class="text-sm text-dim">Sync sessions, reviews and reset reminders.</p></div>
+        <button class="btn btn-primary" style="white-space:nowrap" onclick="connectGoogleCal()">Connect</button>
+      </div>
+      <div class="card">
+        <div class="cal-head"><span class="display-sm" style="font-size:21px" id="cal-title">June 2026</span><span class="text-sm text-dim">tap a day</span></div>
+        <div class="cal-grid" id="cal-dows"></div>
+        <div class="cal-grid" id="cal-grid" style="margin-top:5px"></div>
+      </div>
+      <div id="cal-detail" class="mt-16"></div>
     </div>
 
     <!-- ROOM DETAIL -->
@@ -312,7 +368,9 @@ const ROOMS=[
  {f:"Reflection and proof",k:"journal",ic:"&#9678;",n:"Journal",p:"A reflection intelligence system.",line:"Mara reads entries as signal, and connects them.",flag:"live"},
  {f:"Reflection and proof",k:"life-story",ic:"&#9783;",n:"Life Story",p:"A living autobiography that explains the present.",line:"The present is unintelligible without the past.",moment:"I think the belief running your fear today was formed in this exact moment, at thirteen. You have been protecting that child ever since. Would you like to meet them.",tools:["Life timeline","Origin mapping","Turning points","Reinterpretation"]},
  {f:"Reflection and proof",k:"insights",ic:"&#9673;",n:"Insights",p:"Where Mara shows you what you cannot see.",line:"The magic room. The biggest wow moments.",flag:"live"},
- {f:"Reflection and proof",k:"glass-box",ic:"&#9671;",n:"Operating System",p:"Everything moving, everything that needs you.",line:"Your whole self and growth in one honest view.",flag:"live"}
+ {f:"Reflection and proof",k:"glass-box",ic:"&#9671;",n:"Operating System",p:"Everything moving, everything that needs you.",line:"Your whole self and growth in one honest view.",flag:"live"},
+ {f:"Direction and rhythm",k:"goals",ic:"&#9873;",n:"Goals",p:"Well-formed outcomes and strategies.",line:"A goal is not a wish. Mara shapes it into a well-formed outcome.",flag:"live"},
+ {f:"Direction and rhythm",k:"calendar",ic:"&#9638;",n:"Calendar",p:"A calendar journal, synced to Google.",line:"Your days, reckoned with, in one place.",flag:"live"}
 ];
 
 const LIFE_MODEL={
@@ -354,7 +412,7 @@ document.querySelectorAll('.nav-pill').forEach(b=>b.onclick=()=>nav(b.dataset.sc
 
 // ── rooms grid ──
 function renderRooms(){
-  const fams=["Daily presence","Coaching core","Growth engines","Practice library","Reflection and proof"];
+  const fams=["Daily presence","Coaching core","Growth engines","Practice library","Reflection and proof","Direction and rhythm"];
   let html='';
   const seen=new Set();
   for(const fam of fams){
@@ -369,8 +427,8 @@ function renderRooms(){
 function openRoom(name){
   const r=ROOMS.find(x=>x.n===name);
   // flagship rooms route to their own interactive screen
-  if(["Coaching","Journal","Growth Twin","Insights","Breathwork","Future Self"].includes(name) || r.k==='glass-box' || r.k==='today'){
-    const map={Coaching:'coaching',Journal:'journal','Growth Twin':'twin',Insights:'insights',Breathwork:'voice','Future Self':'voice'};
+  if(["Coaching","Journal","Growth Twin","Insights","Breathwork","Future Self","Goals","Calendar"].includes(name) || r.k==='glass-box' || r.k==='today'){
+    const map={Coaching:'coaching',Journal:'journal','Growth Twin':'twin',Insights:'insights',Breathwork:'voice','Future Self':'voice',Goals:'goals',Calendar:'calendar'};
     nav(map[name]||r.k); return;
   }
   // generic rich detail
@@ -521,10 +579,70 @@ function renderModel(){
 }
 function delEntry(layer,idx){LIFE_MODEL[layer].splice(idx,1);if(!LIFE_MODEL[layer].length)delete LIFE_MODEL[layer];renderModel();}
 
+// ── goals (NLP well-formed outcomes) ──
+let GOALS=[
+ {goal:"I speak up in meetings with a settled, steady voice",evidence:"I finish a point without rushing, my hands are still, people build on what I said",control:"I prepare three points and take one breath before I start",context:"Mondays, my team, starting this week",ecology:"Less time over-preparing in the evenings, which my family will feel",strategy:"Friday, write the three points and read them aloud once"},
+ {goal:"I choose what I take on, rather than saying yes on reflex",evidence:"There is a pause between the ask and my answer, and fewer resentful Sundays",control:"I say ‘let me come back to you on that’ before committing",context:"Any request at work or home, every time",ecology:"Some people may be surprised at first; that is the cost of the boundary",strategy:"Next request that lands, one breath, then the holding sentence"}
+];
+function addGoal(){
+  const g={goal:val('g-goal'),evidence:val('g-evidence'),control:val('g-control'),context:val('g-context'),ecology:val('g-ecology'),strategy:val('g-strategy')};
+  if(!g.goal.trim()){document.getElementById('g-goal').focus();return;}
+  GOALS.unshift(g);
+  ['g-goal','g-evidence','g-control','g-context','g-ecology','g-strategy'].forEach(id=>document.getElementById(id).value='');
+  renderGoals();
+  const btn=document.querySelector('#screen-goals .btn-primary');btn.textContent='Goal set.';setTimeout(()=>btn.textContent='Set this goal',1400);
+}
+function val(id){return document.getElementById(id).value;}
+function renderGoals(){
+  document.getElementById('goals-list').innerHTML=GOALS.map(g=>`
+    <div class="goal-card">
+      <h4>${esc(g.goal)}</h4>
+      ${g.evidence?`<p class="goal-line"><b>Evidence</b> &middot; ${esc(g.evidence)}</p>`:''}
+      ${g.control?`<p class="goal-line"><b>In my control</b> &middot; ${esc(g.control)}</p>`:''}
+      ${g.context?`<p class="goal-line"><b>Context</b> &middot; ${esc(g.context)}</p>`:''}
+      ${g.ecology?`<p class="goal-line"><b>Ecology</b> &middot; ${esc(g.ecology)}</p>`:''}
+      ${g.strategy?`<p class="goal-strat"><b style="color:var(--gold);font-weight:400">First strategy</b> &middot; ${esc(g.strategy)}</p>`:''}
+    </div>`).join('');
+}
+
+// ── calendar journal ──
+const CAL_ENTRIES={2:"Coaching: the through line, one question under three problems",4:"River walk. Clear away from my desk.",9:"Said no to the Saturday shift. Relief by evening.",11:"Felt behind. Wrote out whose measure I was using.",16:"Confidence Lab: led the Monday meeting. Voice held.",23:"Future Self: what are you waiting for."};
+let calSel=null;
+function buildCal(){
+  const dows=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+  document.getElementById('cal-dows').innerHTML=dows.map(d=>`<div class="cal-dow">${d}</div>`).join('');
+  const first=new Date(2026,5,1).getDay(); // 0 Sun..6 Sat
+  const offset=(first+6)%7; // Monday-first
+  let html='';
+  for(let i=0;i<offset;i++)html+=`<div class="cal-day empty"></div>`;
+  for(let d=1;d<=30;d++){
+    const has=CAL_ENTRIES[d]?'has':'';
+    html+=`<div class="cal-day ${has}" data-d="${d}" onclick="selDay(${d})">${d}</div>`;
+  }
+  document.getElementById('cal-grid').innerHTML=html;
+}
+function selDay(d){
+  calSel=d;
+  document.querySelectorAll('.cal-day').forEach(c=>c.classList.toggle('sel',c.dataset.d==String(d)));
+  const e=CAL_ENTRIES[d];
+  document.getElementById('cal-detail').innerHTML=e
+    ? `<div class="card"><p class="label mb-8">${d} June 2026</p><p class="journal-entry-body">${esc(e)}</p><button class="btn btn-ghost text-sm mt-16" style="padding:6px 0" onclick="addToGoogle('${d} June reflection','${esc(e).replace(/'/g,'')}')">Add to Google Calendar</button></div>`
+    : `<div class="card"><p class="label mb-8">${d} June 2026</p><p class="text-dim text-sm mb-16">Nothing written yet for this day.</p><textarea id="cal-new" rows="3" placeholder="What happened today..."></textarea><button class="btn btn-primary mt-16" onclick="addCalEntry(${d})">Save to this day</button></div>`;
+}
+function addCalEntry(d){
+  const t=document.getElementById('cal-new').value.trim();if(!t)return;
+  CAL_ENTRIES[d]=t;buildCal();selDay(d);
+}
+function connectGoogleCal(){ window.open('https://calendar.google.com/calendar/r','_blank'); }
+function addToGoogle(title,details){
+  const url='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent('Mara · '+title)+'&details='+encodeURIComponent(details)+'&dates=20260611T090000/20260611T093000';
+  window.open(url,'_blank');
+}
+
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function setGreeting(){const h=new Date().getHours();document.getElementById('today-greeting').textContent=h<12?"How are you arriving.":h<17?"How are you arriving.":"How are you arriving.";}
 
-buildBars();renderRooms();renderTwin();renderJournal();renderModel();setGreeting();
+buildBars();renderRooms();renderTwin();renderJournal();renderModel();renderGoals();buildCal();setGreeting();
 </script>
 </body>
 </html>
